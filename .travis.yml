@@ -1,1 +1,12 @@
+sudo: false
+
 language: python
+
+install:
+ - conda install -c conda-forge codecov
+
+script:
+ - pytest --cov=codecov
+
+after_success:
+ - codecov
