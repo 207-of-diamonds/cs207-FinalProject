@@ -6,3 +6,4 @@ Final Project for CS207: Automatic Differentiation
 - Selina Wu
 - Stephanie Zhang
 - Will Seaton
+- Caroline Stedman
