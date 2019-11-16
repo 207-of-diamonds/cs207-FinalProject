@@ -1,3 +1,5 @@
+import numpy as np
+
 class Scalar():
     
     def __init__(self, value, der=1, name='x'):
