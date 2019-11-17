@@ -1,3 +1,7 @@
+from scalar import Scalar
+from elementary_functions import *
+import numpy as np
+
 class AD():
     """DEFINITION
     """
@@ -22,16 +26,18 @@ class AD():
             print(f"Please enter a value for variable number {count+1}.")
             variable_key = alphabet[-variable_count+count]
             variable_value = int(input(f"{variable_key} = "))
-            vars()[variable_key] = variable_value
-            variable_dict[variable_key] = variable_value # Should I save Node object?
+            # vars()[variable_key] = variable_value
+            # variable_dict[variable_key] = variable_value # Should I save Node object?
+            vars()[variable_key] = Scalar(variable_value)
+            variable_dict[variable_key] = Scalar(variable_value)
             count += 1
         print("Thank you, we recorded these values:")
         for keys, values in variable_dict.items():
-            print(f"{keys} = {values}")
+            print(f"{keys} = {values.val}")
 
         print("Lastly, what formula would you like to derive? Please use the variables just listed.")
-        formula_str = input() # Saves string of formula
-        formula = eval(formula_str)
+        formula = input() # Saves string of formula
+        function = eval(formula)
         # If a user enters "x", it will evaluate as Node(variable_value)
         # Expectation is entering formula with variables runs it
         # Ex: >>> eval(input())
@@ -39,9 +45,9 @@ class AD():
         # 19
 
         # Save final outputs to class object
-        self.val = formula
-        #self.der = formula.der
-        self.formula = formula_str
+        self.val = function.val
+        self.der = function.der
+        self.formula = formula
 
         print(f"The final value is {self.val}. Thanks for playing!")
 
@@ -52,8 +58,12 @@ class AD():
         return f"Formula used is {self.formula}"
 
 
+
+
+
+
 class Node():
-    """DEFINITION
+    """DELETE THIS AFTER SCALAR CONFIRMED WORKS
     """
 
     def __init__(self, value, derivative=0):
