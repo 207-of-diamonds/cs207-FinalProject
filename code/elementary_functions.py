@@ -1,93 +1,93 @@
 import numpy as np
-from scalar import Scalar as sc
 import math
+from scalar import Scalar
 
 #trig
-def sin(x): #-->cos
+def sin(x): #--> cos
     try:
-        val = np.sin(x.val)
-        der = {var: np.cos(x.val) * der for var, der in x.der.items()}
-        return sc.AD(x.var, val, der) # TODO What does x.var do here?
+        value = np.sin(x.val)
+        derivative = np.cos(x.val) * x.der
+        return Scalar(value, derivative)
     except AttributeError: # constant
         return np.sin(x)
 
-def cos(x): #-->-sin
+def cos(x): #--> -sin
     try:
-        val = np.cos(x.val)
-        der = {var: -np.sin(x.val) * der for var, der in x.der.items()}
-        return sc.AD(x.var, val, der)
+        value = np.cos(x.val)
+        derivative = -np.sin(x.val) * x.der
+        return Scalar(value, derivative)
     except AttributeError:
         return np.cos(x)
 
-def tan(x): #-->1/cos^2(x)
+def tan(x): #--> 1/cos^2(x)
     try:
-        val = np.tan(x.val)
-        der = {var: (1 / (np.cos(x.val) ** 2)) * der for var, der in x.der.items()}
-        return sc.AD(x.var, val, der)
+        value = np.tan(x.val)
+        derivative = (1 / (np.cos(x.val) ** 2)) * x.der
+        return Scalar(value, derivative)
     except AttributeError:
         return np.tan(x)
 
 def arcsin(x): #--> 1/np.sqrt(1-x^2)
     try:
-        val = np.arcsin(x.val)
-        der = {var: (1 / np.sqrt(1 - x.val ** 2)) * der for var, der in x.der.items()}
-        return sc.AD(x.var, val, der)
+        value = np.arcsin(x.val)
+        derivative = (1 / np.sqrt(1 - x.val ** 2)) * x.der
+        return Scalar(value, derivative)
     except AttributeError:
         return np.arcsin(x)
 
 def arccos(x):#--> -1/np.sqrt(1-x^2)
     try:
-        val = np.arccos(x.val)
-        der = {var: (1 / -np.sqrt(1 - x.val ** 2)) * der for var, der in x.der.items()}
-        return sc.AD(x.var, val, der)
+        value = np.arccos(x.val)
+        derivative = (1 / -np.sqrt(1 - x.val ** 2)) * x.der
+        return Scalar(value, derivative)
     except AttributeError:
         return np.arccos(x)
 
 def arctan(x):#--> 1/(1+x^2)
     try:
-        val = np.arctan(x.val)
-        der = {var: (1 / (1 + x.val ** 2)) * der for var, der in x.der.items()}
-        return sc.AD(x.var, val, der)
+        value = np.arctan(x.val)
+        derivative = (1 / (1 + x.val ** 2)) * x.der
+        return Scalar(value, derivative)
     except AttributeError:
         return np.arctan(x)
 
 def sinh(x):#--> cosh
     try:
-        val = math.sinh(x.val)
-        der = {var: math.cosh(x.val) * der for var, der in x.der.items()}
-        return scl.AD(x.var, val, der)
+        value = math.sinh(x.val)
+        derivative = math.cosh(x.val) * x.der
+        return Scalar(value, derivative)
     except AttributeError:
         return math.sinh(x)
 
 def cosh(x):#--> sinh
     try:
-        val = math.cosh(x.val)
-        der = {var: math.sinh(x.val) * der for var, der in x.der.items()}
-        return sc.AD(x.var, val, der)
+        value = math.cosh(x.val)
+        derivative = math.sinh(x.val) * x.der
+        return Scalar(value, derivative)
     except AttributeError:
         return math.cosh(x)
 
 def tanh(x):#--> 1 / (cosh^2)
     try:
-        val = math.tanh(x.val)
-        der = {var: (1 / (cosh(x.val) ** 2)) * der for var, der in x.der.items()}
-        return sc.AD(x.var, val, der)
+        value = math.tanh(x.val)
+        derivative = (1 / (cosh(x.val) ** 2)) * x.der
+        return Scalar(value, derivative)
     except AttributeError:
         return 1 / (cosh(x) ** 2)
 
-#exponetial and power
+#exponential and power
 def exp(x):
     try:
-        val = np.exp(x.val)
-        der = {var: val * der for var, der in x.der.items()}
-        return sc.AD(x.var, val, der)
+        value = np.exp(x.val)
+        derivative = x.val * x.der
+        return Scalar(value, derivative)
     except AttributeError:
         return np.exp(x)
 
 def log(x, base=math.e):
     try:
-        val = math.log(x.val, base)
-        der = {var: (1 / (x.val * math.log(base))) * der for var, der in x.der.items()}
-        return sc.AD(x.var, val, der)
+        value = math.log(x.val, base)
+        derivative = (1 / (x.val * math.log(base))) * x.der
+        return Scalar(value, derivative)
     except AttributeError:
         return math.log(x, base)

@@ -2,144 +2,198 @@ import numpy as np
 
 class Scalar():
 
-    def __init__(self, value, der=1, name='x'):
-        self.val = {name: value} # TODO Should edit this
-        self.der = {name: der}
-        self.name = name
+    def __init__(self, value, derivative=1):
+        self.val = value
+        self.der = derivative
 
     def __str__(self):
         return self.val
 
     def __add__(self, other):
+        """
+        This changes what happens when you use '+'
+        """
         try:
-            temp_val = self.val[self.name] + other.val[self.name]
-            temp_der = self.der[self.name]+other.der[other.name]
-            return Scalar(temp_val, temp_der, name=self.name)
+            temp_val = self.val + other.val
+            temp_der = self.der + other.der
+            return Scalar(temp_val, temp_der)
         except AttributeError:
             try:
-                temp_val = self.val[self.name] + float(other)
-                temp_der = self.der[self.name] + 0
-                return Scalar(temp_val, temp_der, name=self.name)
+                temp_val = self.val + float(other)
+                temp_der = self.der + 0
+                return Scalar(temp_val, temp_der)
             except AttributeError:
                 print("Invalid input : ", other)
 
     def __radd__(self, other):
+        """
+        Called if left parameter does not support __add__
+        and parameters are of different types
+        """
         try:
-            temp_val = self.val[self.name] + other.val[self.name]
-            temp_der = self.der[self.name]+other.der[other.name]
-            return Scalar(temp_val, temp_der, name=self.name)
+            temp_val = self.val + other.val
+            temp_der = self.der + other.der
+            return Scalar(temp_val, temp_der)
         except AttributeError:
             try:
-                temp_val = self.val[self.name] + float(other)
-                temp_der = self.der[self.name] + 0
-                return Scalar(temp_val, temp_der, name=self.name)
+                temp_val = self.val + float(other)
+                temp_der = self.der + 0
+                return Scalar(temp_val, temp_der)
             except AttributeError:
                 print("Invalid input : ", other)
 
     def __sub__(self, other):
+        """
+        This changes what happens when you use '-'
+        """
         try:
-            temp_val = self.val[self.name] - other.val[self.name]
-            temp_der = self.der[self.name]-other.der[other.name]
-            return Scalar(temp_val, temp_der, name=self.name)
+            temp_val = self.val - other.val
+            temp_der = self.der - other.der
+            return Scalar(temp_val, temp_der)
         except AttributeError:
             try:
-                temp_val = self.val[self.name] - float(other)
-                temp_der = self.der[self.name] - 0
-                return Scalar(temp_val, temp_der, name=self.name)
+                temp_val = self.val - float(other)
+                temp_der = self.der - 0
+                return Scalar(temp_val, temp_der)
             except AttributeError:
                 print("Invalid input : ", other)
 
     def __rsub__(self, other):
+        """
+        Called if left parameter does not support __sub__
+        and parameters are of different types
+        """
         try:
-            temp_val = other.val[self.name] - self.val[self.name]
-            temp_der = other.der[self.name] - self.der[self.name]
-            return Scalar(temp_val, temp_der, name=self.name)
+            temp_val = other.val - self.val
+            temp_der = other.der - self.der
+            return Scalar(temp_val, temp_der)
         except AttributeError:
             try:
-                temp_val = float(other)-self.val[self.name]
-                temp_der = 0 - self.der[self.name]
-                return Scalar(temp_val, temp_der, name=self.name)
+                temp_val = float(other) - self.val
+                temp_der = 0 - self.der
+                return Scalar(temp_val, temp_der)
             except AttributeError:
                 print("Invalid input : ", other)
 
     def __mul__(self, other):
+        """
+        This changes what happens when you use '*'
+        """
         try:
-            temp_val = self.val[self.name] * other.val[self.name]
-            temp_der = self.val[self.name] * other.der[self.name] + self.der[self.name] * other.val[self.name]
-            return Scalar(temp_val, temp_der, name=self.name)
+            temp_val = self.val * other.val
+            temp_der = self.val * other.der + self.der * other.val
+            return Scalar(temp_val, temp_der)
         except AttributeError:
             try:
-                temp_val = self.val[self.name] * float(other)
-                temp_der = self.der[self.name] * float(other)
-                return Scalar(temp_val, temp_der, name=self.name)
+                temp_val = self.val * float(other)
+                temp_der = self.der * float(other)
+                return Scalar(temp_val, temp_der)
             except AttributeError:
                 print("Invalid input : ", other)
 
     def __rmul__(self, other):
-         try:
-            temp_val = self.val[self.name] * other.val[self.name]
-            temp_der = self.val[self.name] * other.der[self.name] + self.der[self.name] * other.val[self.name]
-            return Scalar(temp_val, temp_der, name=self.name)
-         except AttributeError:
+
+        """
+        Called if left parameter does not support __mul__
+        and parameters are of different types
+        """
+        try:
+            temp_val = self.val * other.val
+            temp_der = self.val * other.der + self.der * other.val
+            return Scalar(temp_val, temp_der)
+        except AttributeError:
             try:
-                temp_val = self.val[self.name] * float(other)
-                temp_der = self.der[self.name] * float(other)
-                return Scalar(temp_val, temp_der, name=self.name)
+                temp_val = self.val * float(other)
+                temp_der = self.der * float(other)
+                return Scalar(temp_val, temp_der)
             except AttributeError:
                 print("Invalid input : ", other)
 
+    # TODO __div__ deprecated in Python 3.x. Should we specify this version requirement in requirements.txt?
+
     def __truediv__(self, other):
+        """
+        This changes what happens when you use '/'
+        """
         try:
-            temp_val = self.val[self.name]/other.val[self.name]
-            temp_der = self.val[self.name] * (-1*(other.val[self.name])**(-2))*other.der[self.name] + self.der[self.name] * (other.val[self.name])**(-1)
-            return Scalar(temp_val, temp_der, name=self.name)
+            temp_val = self.val / other.val
+            temp_der = self.val * (-1 * (other.val)**(-2)) * other.der + self.der * (other.val)**(-1)
+            return Scalar(temp_val, temp_der)
         except AttributeError:
             try:
-                temp_val = self.val[self.name] / float(other)
-                temp_der = self.der[self.name] / float(other)
-                return Scalar(temp_val, temp_der, name=self.name)
+                temp_val = self.val / float(other)
+                temp_der = self.der / float(other)
+                return Scalar(temp_val, temp_der)
             except AttributeError:
                 print("Invalid input : ", other)
 
     def __rtruediv__(self, other):
+        """
+        Called if left parameter does not support __truediv__
+        and parameters are of different types
+        """
         try:
-            temp_val = self.val[self.name]/other.val[self.name]
-            temp_der = self.val[self.name] * (-1*(other.val[self.name])**(-2))*other.der[self.name] + self.der[self.name] * (other.val[self.name])**(-1)
-            return Scalar(temp_val, temp_der, name=self.name)
+            temp_val = self.val / other.val
+            temp_der = self.val * (-1 * (other.val)**(-2)) * other.der + self.der * (other.val)**(-1)
+            return Scalar(temp_val, temp_der)
         except AttributeError:
             try:
-                temp_val = float(other)/self.val[self.name]
-                temp_der = (-1)*float(other)*self.val[self.name]**(-2)*self.der[self.name]
-                return Scalar(temp_val, temp_der, name=self.name)
+                temp_val = float(other) / self.val
+                temp_der = (-1) * float(other) * self.val**(-2)*self.der
+                return Scalar(temp_val, temp_der)
             except AttributeError:
                 print("Invalid input : ", other)
 
+    # TODO Implement __floordiv__
+
     def __pow__(self, other):
+        """
+        This changes what happens when you use '**'
+        """
         try:
-            temp_val = self.val[self.name] ** other.val[self.name]
-            temp_der = (self.val[self.name] ** other.val[self.name]) * (np.log(self.val[self.name]) + other.val[self.name]/self.val[self.name]) * self.der[self.name]
-            return Scalar(temp_val, temp_der, name=self.name)
+            temp_val = self.val ** other.val
+            temp_der = (self.val ** other.val) * (np.log(self.val) + other.val / self.val) * self.der
+            return Scalar(temp_val, temp_der)
         except AttributeError:
             try:
                 #power rule
                 n = float(other)
-                temp_val = self.val[self.name]**(n)
-                temp_der = n*self.val[self.name]**(n-1)*self.der[self.name]
-                return Scalar(temp_val, temp_der, name=self.name)
+                temp_val = self.val**(n)
+                temp_der = n * self.val**(n-1) * self.der
+                return Scalar(temp_val, temp_der)
             except AttributeError:
                 print("Invalid input : ", other)
 
     def __rpow__(self, other):
+        """
+        Called if left parameter does not support __pow__
+        and parameters are of different types
+        """
         try:
-            temp_val = other.val[self.name] ** self.val[self.name]
-            temp_der = (self.val[self.name] ** other.val[self.name]) * (np.log(self.val[self.name]) + other.val[self.name]/self.val[self.name]) * self.der[self.name]
-            return Scalar(temp_val, temp_der, name=self.name)
+            temp_val = other.val ** self.val
+            temp_der = (self.val ** other.val) * (np.log(self.val) + other.val / self.val) * self.der
+            return Scalar(temp_val, temp_der)
         except AttributeError:
             try:
                 #exponential rule
                 n = float(other)
-                temp_val = (n)**self.val[self.name]
-                temp_der = n**self.val[self.name]*np.log(n)*self.der[self.name]
-                return Scalar(temp_val, temp_der, name=self.name)
+                temp_val = (n)**self.val
+                temp_der = n**self.val * np.log(n) * self.der
+                return Scalar(temp_val, temp_der)
             except AttributeError:
                 print("Invalid input : ", other)
+
+    # UNARY OPERATIONS
+    def __neg__(self):
+        """
+        This changes what happens when you use '-' in front of a value
+        instead of as an operation.
+        """
+        return Scalar(-self.val, -self.der)
+
+    def __pos__(self):
+        """
+        This changes what happens when you use '+' in front of a value
+        instead of as an operation.
+        """
+        return Scalar(+self.val, +self.der)
