@@ -91,18 +91,3 @@ def test_positive(mocker):
     assert x.val == -2.0
     assert x.der == 2.0
     assert x.formula == '-x+3*(y)'
-
-
-def test_really_big_numbers(mocker):
-    """
-    Test for handling overly large input values or derived values during operations
-    Formula: sin(x*y*z)**tanh(z)
-    Values:
-        z = 4.6
-        y = 9.2
-        x = 5.0
-    Error: RuntimeWarning: invalid value encountered in log
-    Returns nan - TODO Should we handle this or change error message?
-    Reference: https://stackoverflow.com/questions/27784528/numpy-division-with-runtimewarning-invalid-value-encountered-in-double-scalars
-    """
-    pass

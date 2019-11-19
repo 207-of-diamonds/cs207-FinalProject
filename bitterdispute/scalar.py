@@ -114,8 +114,6 @@ class Scalar():
             except AttributeError:
                 print("Invalid input : ", other)
 
-    # TODO __div__ deprecated in Python 3.x. Should we specify this version requirement in requirements.txt?
-
     def __truediv__(self, other):
         """
         This changes what happens when you use '/'
@@ -148,8 +146,6 @@ class Scalar():
                 return Scalar(temp_val, temp_der)
             except AttributeError:
                 print("Invalid input : ", other)
-
-    # TODO Implement __floordiv__
 
     def __pow__(self, other):
         """
