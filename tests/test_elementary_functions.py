@@ -129,3 +129,83 @@ def test_arctan_result_var():
 def test_arctan_types():
     with pytest.raises(TypeError):
         elem.arctan("hi")
+
+## sinh ======================
+def test_sinh_result_constant():
+    assert elem.sinh(1.0) == np.sinh(1.0)
+
+def test_sihn_result_var():
+    val = 1
+    x = sc.Scalar(val)
+    obj_generate = elem.sinh(x)
+    obj_wanted = sc.Scalar(np.sinh(val), np.cosh(val))
+    assert obj_generate.val == obj_wanted.val
+    assert obj_generate.der == obj_wanted.der
+
+def test_sinh_types():
+    with pytest.raises(TypeError):
+        elem.sinh("hi")
+
+## cosh ======================
+def test_cosh_result_constant():
+    assert elem.cosh(1.0) == np.cosh(1.0)
+
+def test_cosh_result_var():
+    val = 1
+    x = sc.Scalar(val)
+    obj_generate = elem.cosh(x)
+    obj_wanted = sc.Scalar(np.cosh(val), np.sinh(val))
+    assert obj_generate.val == obj_wanted.val
+    assert obj_generate.der == obj_wanted.der
+
+def test_cosh_types():
+    with pytest.raises(TypeError):
+        elem.cosh("hi")
+
+## tanh ======================
+def test_tanh_result_constant():
+    assert elem.tanh(1.0) == np.tanh(1.0)
+
+def test_tanh_result_var():
+    val = 1
+    x = sc.Scalar(val)
+    obj_generate = elem.tanh(x)
+    obj_wanted = sc.Scalar(np.tanh(val), (1/np.cosh(val))**2)
+    assert obj_generate.val == obj_wanted.val
+    assert obj_generate.der == obj_wanted.der
+
+def test_tanh_types():
+    with pytest.raises(TypeError):
+        elem.tanh("hi")
+
+## exp ======================
+def test_exp_result_constant():
+    assert elem.exp(1.0) == np.exp(1.0)
+
+def test_exp_result_var():
+    val = 1
+    x = sc.Scalar(val)
+    obj_generate = elem.exp(x)
+    obj_wanted = sc.Scalar(np.exp(val), np.exp(val))
+    assert obj_generate.val == obj_wanted.val
+    assert obj_generate.der == obj_wanted.der
+
+def test_exp_types():
+    with pytest.raises(TypeError):
+        elem.exp("hi")
+
+## log ======================
+def test_log_result_constant():
+    assert elem.log(1.0) == np.log(1.0)
+
+def test_log_result_var():
+    val = 1
+    x = sc.Scalar(val)
+    obj_generate = elem.log(x)
+    obj_wanted = sc.Scalar(np.log(val), 1/(val))
+    assert obj_generate.val == obj_wanted.val
+    assert obj_generate.der == obj_wanted.der
+
+def test_log_types():
+    with pytest.raises(TypeError):
+        elem.log("hi")
