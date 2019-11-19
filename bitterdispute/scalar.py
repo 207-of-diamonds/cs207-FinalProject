@@ -1,6 +1,11 @@
 import numpy as np
 
 class Scalar():
+    """The Scalar() class defines the base storage for an initial value and
+    derivative while enabling the automatic differentiation of any formula
+    through custom defined operations. It is the core class enabling automatic
+    differentiation through any formula.
+    """
 
     def __init__(self, value, derivative=1):
         self.val = value
@@ -191,6 +196,7 @@ class Scalar():
         """
         return Scalar(-self.val, -self.der)
 
+    # TODO Should we define or delete this?
     def __pos__(self):
         """
         This changes what happens when you use '+' in front of a value

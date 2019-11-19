@@ -1,8 +1,11 @@
-from scalar import Scalar
-from elementary_functions import *
+from bitterdispute.scalar import Scalar
+from bitterdispute.elementary_functions import *
 
 class AD():
-    """DEFINITION
+    """The AD() class creates a step-by-step walkthrough for users who wish to
+    automatically differentiate a chosen formula and values. A user can save
+    the output values of the formula and the derivative of the formula to a
+    variable in Python using something like x = AD() for later reference.
     """
 
     def __init__(self):
@@ -39,11 +42,6 @@ class AD():
         print("Lastly, what formula would you like to derive? Please use the variables just listed.")
         formula = input() # Saves string of formula
         function = eval(formula)
-        # If a user enters "x", it will evaluate as Scalar(variable_value)
-        # Expectation is entering formula with variables runs it
-        # Ex: >>> eval(input())
-        # 3+4*x
-        # 19
 
         # Save final outputs to AD class object
         self.val = function.val

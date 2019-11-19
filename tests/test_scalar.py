@@ -1,8 +1,6 @@
 import pytest
 import numpy as np
-import sys
-sys.path.append('..')
-import codes.scalar as sc
+import bitterdispute.scalar as sc
 
 def test_add():
     x1 = sc.Scalar(1)
