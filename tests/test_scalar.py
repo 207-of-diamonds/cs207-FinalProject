@@ -1,3 +1,8 @@
+'''
+This file contains a number of unit tests
+to confirm proper errors and behavior during our Bitter Dispute,
+focusing on functions in scalar.py.
+'''
 import pytest
 import numpy as np
 import bitterdispute.scalar as sc

@@ -1,14 +1,6 @@
 '''
 This file contains a number of unit tests
 to confirm proper errors and behavior during our Bitter Dispute.
-
-Unit tests include:
-- test_standard_formula1
-- test_standard_formula2
-- test_elementary_functions1
-- test_elementary_functions2
-- test_power
-- test_positive
 '''
 # Import necessary modules
 import pytest
