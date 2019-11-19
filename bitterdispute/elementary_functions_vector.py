@@ -28,22 +28,29 @@ def tan(x): #-->1/cos^2(x)
         return np.tan(x)
 
 def arcsin(x): #--> 1/np.sqrt(1-x^2)
-    try:
-        val = np.arcsin(x.val)
-        der = {var: (1 / np.sqrt(1 - x.val ** 2)) * der for var, der in x.der.items()}
-        return sc.AD(x.var, val, der)
-    except AttributeError:
-        return np.arcsin(x)
+    if self.val <= -1 or self.val >= 1:
+            raise ValueError("input of arcsin should within (-1, 1)")
+    else:
+        try:
+            val = np.arcsin(x.val)
+            der = {var: (1 / np.sqrt(1 - x.val ** 2)) * der for var, der in x.der.items()}
+            return sc.AD(x.var, val, der)
+        except AttributeError:
+            return np.arcsin(x)
 
 def arccos(x):#--> -1/np.sqrt(1-x^2)
-    try:
-        val = np.arccos(x.val)
-        der = {var: (1 / -np.sqrt(1 - x.val ** 2)) * der for var, der in x.der.items()}
-        return sc.AD(x.var, val, der)
-    except AttributeError:
-        return np.arccos(x)
+    if self.val <= -1 or self.val >= 1:
+            raise ValueError("input of arcsin should within (-1, 1)")
+    else:
+        try:
+            val = np.arccos(x.val)
+            der = {var: (1 / -np.sqrt(1 - x.val ** 2)) * der for var, der in x.der.items()}
+            return sc.AD(x.var, val, der)
+        except AttributeError:
+            return np.arccos(x)
 
 def arctan(x):#--> 1/(1+x^2)
+
     try:
         val = np.arctan(x.val)
         der = {var: (1 / (1 + x.val ** 2)) * der for var, der in x.der.items()}

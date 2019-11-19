@@ -40,23 +40,29 @@ def arcsin(x): #--> 1/np.sqrt(1-x^2)
     """Defines what happens when inverse sine operations performed on
     a Scalar() object or a constant value. Includes calculation of derivative.
     """
-    try:
-        value = np.arcsin(x.val)
-        derivative = (1 / np.sqrt(1 - x.val ** 2)) * x.der
-        return Scalar(value, derivative)
-    except AttributeError:
-        return np.arcsin(x)
+    if x.val <= -1 or x.val >= 1:
+            raise ValueError("input of arcsin should within (-1, 1)")
+    else:
+        try:
+            value = np.arcsin(x.val)
+            derivative = (1 / np.sqrt(1 - x.val ** 2)) * x.der
+            return Scalar(value, derivative)
+        except AttributeError:
+            return np.arcsin(x)
 
 def arccos(x):#--> -1/np.sqrt(1-x^2)
     """Defines what happens when inverse cosine operations performed on
     a Scalar() object or a constant value. Includes calculation of derivative.
     """
-    try:
-        value = np.arccos(x.val)
-        derivative = (1 / -np.sqrt(1 - x.val ** 2)) * x.der
-        return Scalar(value, derivative)
-    except AttributeError:
-        return np.arccos(x)
+    if x.val <= -1 or x.val >= 1:
+        raise ValueError("input of arccos should within (-1, 1)")
+    else:
+        try:
+            value = np.arccos(x.val)
+            derivative = (1 / -np.sqrt(1 - x.val ** 2)) * x.der
+            return Scalar(value, derivative)
+        except AttributeError:
+            return np.arccos(x)
 
 def arctan(x):#--> 1/(1+x^2)
     """Defines what happens when inverse tangent operations performed on
@@ -102,7 +108,7 @@ def tanh(x):#--> 1 / (cosh^2)
     except AttributeError:
         return 1 / (cosh(x) ** 2)
 
-#exponential and power
+#exponential and log
 def exp(x):
     """Defines what happens when exponential operations performed on
     a Scalar() object or a constant value. Includes calculation of derivative.
