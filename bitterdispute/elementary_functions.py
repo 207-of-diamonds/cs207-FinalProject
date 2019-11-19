@@ -1,6 +1,6 @@
 import numpy as np
 import math
-from bitterdispute.scalar import Scalar
+from scalar import Scalar
 
 #trig
 def sin(x): #--> cos
@@ -40,29 +40,33 @@ def arcsin(x): #--> 1/np.sqrt(1-x^2)
     """Defines what happens when inverse sine operations performed on
     a Scalar() object or a constant value. Includes calculation of derivative.
     """
-    if x.val <= -1 or x.val >= 1:
+    # if x.val < -1.0 or x.val > 1.0:
+    #     print('here')
+    #     raise ValueError("input of arcsin should within (-1, 1)")
+    # else:
+    try:
+        if x.val < -1.0 or x.val > 1.0:
             raise ValueError("input of arcsin should within (-1, 1)")
-    else:
-        try:
+        else:
             value = np.arcsin(x.val)
             derivative = (1 / np.sqrt(1 - x.val ** 2)) * x.der
             return Scalar(value, derivative)
-        except AttributeError:
-            return np.arcsin(x)
+    except AttributeError:
+        return np.arcsin(x)
 
 def arccos(x):#--> -1/np.sqrt(1-x^2)
     """Defines what happens when inverse cosine operations performed on
     a Scalar() object or a constant value. Includes calculation of derivative.
     """
-    if x.val <= -1 or x.val >= 1:
-        raise ValueError("input of arccos should within (-1, 1)")
-    else:
-        try:
+    try:
+        if x.val < -1.0 or x.val > 1.0:
+            raise ValueError("input of arccos should within (-1, 1)")
+        else:
             value = np.arccos(x.val)
             derivative = (1 / -np.sqrt(1 - x.val ** 2)) * x.der
             return Scalar(value, derivative)
-        except AttributeError:
-            return np.arccos(x)
+    except AttributeError:
+        return np.arccos(x)
 
 def arctan(x):#--> 1/(1+x^2)
     """Defines what happens when inverse tangent operations performed on
