@@ -1,6 +1,6 @@
 import numpy as np
 import math
-from scalar import Scalar
+from bitterdispute.scalar import Scalar
 
 #trig
 def sin(x): #--> cos
@@ -52,6 +52,8 @@ def arcsin(x): #--> 1/np.sqrt(1-x^2)
             derivative = (1 / np.sqrt(1 - x.val ** 2)) * x.der
             return Scalar(value, derivative)
     except AttributeError:
+        if x < -1.0 or x > 1.0:
+            raise ValueError("input of arcsin should within (-1, 1)")
         return np.arcsin(x)
 
 def arccos(x):#--> -1/np.sqrt(1-x^2)
@@ -66,6 +68,8 @@ def arccos(x):#--> -1/np.sqrt(1-x^2)
             derivative = (1 / -np.sqrt(1 - x.val ** 2)) * x.der
             return Scalar(value, derivative)
     except AttributeError:
+        if x < -1.0 or x > 1.0:
+            raise ValueError("input of arccos should within (-1, 1)")
         return np.arccos(x)
 
 def arctan(x):#--> 1/(1+x^2)
@@ -110,7 +114,7 @@ def tanh(x):#--> 1 / (cosh^2)
         derivative = (1 / (cosh(x.val) ** 2)) * x.der
         return Scalar(value, derivative)
     except AttributeError:
-        return 1 / (cosh(x) ** 2)
+        return math.tanh(x)
 
 #exponential and log
 def exp(x):
@@ -119,7 +123,7 @@ def exp(x):
     """
     try:
         value = np.exp(x.val)
-        derivative = x.val * x.der
+        derivative = np.exp(x.val) * x.der
         return Scalar(value, derivative)
     except AttributeError:
         return np.exp(x)

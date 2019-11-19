@@ -188,18 +188,10 @@ class Scalar():
             except AttributeError:
                 print("Invalid input : ", other)
 
-    # UNARY OPERATIONS
+    # Unary Operations
     def __neg__(self):
         """
         This changes what happens when you use '-' in front of a value
         instead of as an operation.
         """
         return Scalar(-self.val, -self.der)
-
-    # TODO Should we define or delete this?
-    def __pos__(self):
-        """
-        This changes what happens when you use '+' in front of a value
-        instead of as an operation.
-        """
-        return Scalar(+self.val, +self.der)

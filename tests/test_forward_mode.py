@@ -81,16 +81,16 @@ def test_power(mocker):
 def test_positive(mocker):
     """
     Test for handling positive and negative conversions
-    Formula: '+(-x+3*(y))'
+    Formula: '-x+3*(y)'
     Values:
         x = 8
         y = 2
     """
-    mocker.patch('builtins.input', side_effect=[2, 2, 8, '+(-x+3*(y))'])
+    mocker.patch('builtins.input', side_effect=[2, 2, 8, '-x+3*(y)'])
     x = AD()
     assert x.val == -2.0
     assert x.der == 2.0
-    assert x.formula == '+(-x+3*(y))'
+    assert x.formula == '-x+3*(y)'
 
 
 def test_really_big_numbers(mocker):

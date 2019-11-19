@@ -172,7 +172,7 @@ def test_tanh_result_var():
     obj_generate = elem.tanh(x)
     obj_wanted = sc.Scalar(np.tanh(val), (1/np.cosh(val))**2)
     assert obj_generate.val == obj_wanted.val
-    assert obj_generate.der == obj_wanted.der
+    assert round(obj_generate.der, 10) == round(obj_wanted.der, 10)
 
 def test_tanh_types():
     with pytest.raises(TypeError):

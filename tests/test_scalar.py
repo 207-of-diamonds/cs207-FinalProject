@@ -10,14 +10,11 @@ import bitterdispute.scalar as sc
 def test_add():
     x1 = sc.Scalar(1)
     x2 = x1 + 4
-    x3 = +x1 + x2 #  TEST__POS__
-    x4 = -x1 + 5 # TEST_NEG__
+    x3 = -x1 + 5 # TEST_NEG__
     assert x2.val == 5
     assert x2.der == 1
-    assert x3.val == 6
-    assert x3.der == 2
-    assert x4.val == 4
-    assert x4.der == -1
+    assert x3.val == 4
+    assert x3.der == -1
 
 def test_sub():
     x1 = sc.Scalar(4)
