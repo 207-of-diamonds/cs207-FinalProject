@@ -44,6 +44,7 @@ class AD():
         function = eval(formula)
 
         # Save final outputs to AD class object
+        self.inputs = [f"{keys} = {values.val}" for keys, values in variable_dict.items()]
         self.val = function.val
         self.der = function.der
         self.formula = formula

@@ -46,8 +46,8 @@ def test_elementary_functions1(mocker):
     """
     mocker.patch('builtins.input', side_effect=[2, 5, 8, 'sin(x)*7+4*tanh(y)'])
     x = AD()
-    assert x.val == 10.925144543414053
-    assert x.der == -1.0177739037365197
+    assert round(x.val, 10) == round(10.925144543414053, 10)
+    assert round(x.der, 10) == round(-1.0177739037365197, 10)
     assert x.formula == 'sin(x)*7+4*tanh(y)'
 
 def test_elementary_functions2(mocker):
@@ -61,8 +61,8 @@ def test_elementary_functions2(mocker):
     """
     mocker.patch('builtins.input', side_effect=[3, 2, 7, 1, 'sin(cos(tan(x)*y)*z)'])
     x = AD()
-    assert x.val == -0.18607529153476626
-    assert x.der == 49.86796453760523
+    assert round(x.val, 10) == round(-0.18607529153476626, 10)
+    assert round(x.der, 10) == round(49.86796453760523, 10)
     assert x.formula == 'sin(cos(tan(x)*y)*z)'
 
 def test_power(mocker):
