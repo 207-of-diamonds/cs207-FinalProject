@@ -223,3 +223,46 @@ class Variable():
         """
         # todoteam confirm what derivative of negative value is
         return Variable(-self.val, -self.der, -self.der2)
+
+    # Comparison Methods
+    def __eq__(self, other):
+        """Equal Method for Variable Class"""
+        try:
+            return (self.val == other.val)
+        except AttributeError:
+            return (self.val == other)
+
+    def __ne__(self, other):
+        """Not Equal Method for Variable Class"""
+        try:
+            return not (self.val == other.val)
+        except AttributeError:
+            return not (self.val == other)
+
+    def __lt__(self, other):
+        """Less Than Method for Variable Class"""
+        try:
+            return  (self.val < other.val)
+        except AttributeError:
+            return  (self.val < other)
+
+    def __le__(self, other):
+        """Less Than or Equal Method for Variable Class"""
+        try:
+            return  (self.val <= other.val)
+        except AttributeError:
+            return  (self.val <= other)
+    
+    def __gt__(self, other):
+        """Greater Than Method for Variable Class"""
+        try:
+            return  (self.val > other.val)
+        except AttributeError:
+            return  (self.val > other)
+
+    def __ge__(self, other):
+        """Greater Than or Equal Method for Variable Class"""
+        try:
+            return  (self.val >= other.val)
+        except AttributeError:
+            return  (self.val >= other)
