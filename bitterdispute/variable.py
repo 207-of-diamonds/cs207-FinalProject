@@ -21,6 +21,9 @@ class Variable():
     def __add__(self, other):
         """
         This changes what happens when you use '+'
+        Reference:
+            temp_der: https://www.wolframalpha.com/input/?i=first+derivative+of+f%28x%29%2Bg%28x%29
+            temp_der2: https://www.wolframalpha.com/input/?i=second+derivative+of+f%28x%29%2Bg%28x%29
         """
         try:
             # todoteam how should I update variable name?
@@ -45,24 +48,14 @@ class Variable():
         Called if left parameter does not support __add__
         and parameters are of different types
         """
-        # todo can I shorten this to just 'return self+other'
-        try:
-            temp_val = self.val + other.val
-            temp_der = self.der + other.der
-            temp_der2 = None
-            return Variable(temp_val, temp_der, temp_der2)
-        except AttributeError:
-            try:
-                temp_val = self.val + float(other)
-                temp_der = self.der + 0
-                temp_der2 = None
-                return Variable(temp_val, temp_der, temp_der2)
-            except AttributeError:
-                print("Invalid input type: ", other)
+        return self + other
 
     def __sub__(self, other):
         """
         This changes what happens when you use '-'
+        Reference:
+            temp_der: https://www.wolframalpha.com/input/?i=first+derivative+of+f%28x%29-g%28x%29
+            temp_der2: https://www.wolframalpha.com/input/?i=second+derivative+of+f%28x%29-g%28x%29
         """
         try:
             temp_val = self.val - other.val
@@ -83,28 +76,19 @@ class Variable():
         Called if left parameter does not support __sub__
         and parameters are of different types
         """
-        try:
-            temp_val = other.val - self.val
-            temp_der = other.der - self.der
-            temp_der2 = None
-            return Variable(temp_val, temp_der, temp_der2)
-        except AttributeError:
-            try:
-                temp_val = float(other) - self.val
-                temp_der = 0 - self.der
-                temp_der2 = None
-                return Variable(temp_val, temp_der, temp_der2)
-            except AttributeError:
-                print("Invalid input type: ", other)
+        return self - other
 
     def __mul__(self, other):
         """
         This changes what happens when you use '*'
+        Reference:
+            temp_der: https://www.wolframalpha.com/input/?i=first+derivative+of+f%28x%29*g%28x%29
+            temp_der2: https://www.wolframalpha.com/input/?i=second+derivative+of+f%28x%29*g%28x%29
         """
         try:
             temp_val = self.val * other.val
-            temp_der = self.val * other.der + self.der * other.val
-            temp_der2 = self.val * other.der2 + self.der2 * other.val # todo validate this
+            temp_der = other.val * self.der + self.val * other.der
+            temp_der2 = other.val * self.der2 + 2 * self.der * other.der + self.val * other.der2
             return Variable(temp_val, temp_der, temp_der2)
         except AttributeError:
             try:
@@ -121,29 +105,21 @@ class Variable():
         Called if left parameter does not support __mul__
         and parameters are of different types
         """
-        try:
-            temp_val = self.val * other.val
-            temp_der = self.val * other.der + self.der * other.val
-            temp_der2 = self.val * other.der2 + self.der2 * other.val # todo validate this
-            return Variable(temp_val, temp_der, temp_der2)
-        except AttributeError:
-            try:
-                temp_val = self.val * float(other)
-                temp_der = self.der * float(other)
-                temp_der2 = self.der2 * float(other)
-                return Variable(temp_val, temp_der, temp_der2)
-            except AttributeError:
-                print("Invalid input type: ", other)
+        return self * other
 
     def __truediv__(self, other):
         """
         This changes what happens when you use '/'
+        Reference:
+            temp_der: https://www.wolframalpha.com/input/?i=first+derivative+of+f%28x%29%2Fg%28x%29
+            temp_der2: https://www.wolframalpha.com/input/?i=second+derivative+of+f%28x%29%2Fg%28x%29
         """
         try:
             temp_val = self.val / other.val
-            temp_der = self.val * (-1 * (other.val)**(-2)) * other.der + self.der * (other.val)**(-1)
+            temp_der = (other.val * self.der - self.val * other.der) / (other.val**2) # todoteam confirm this swap is ok
+            # old: self.val * (-1 * (other.val)**(-2)) * other.der + self.der * (other.val)**(-1)
             # failing because np.array doesn't allow negative int powers. Python acn do this 1x1 though...
-            temp_der2 = self.val * (-1 * (other.val)**(-2)) * other.der2 + self.der2 * (other.val)**(-1) # todo validate this.
+            temp_der2 = ( (other.val**2) * self.der2 - other.val * (2 * self.der * other.der + self.val * other.der2) + 2 * self.val * (other.der**2) ) / (other.val ** 3)
             return Variable(temp_val, temp_der, temp_der2)
         except AttributeError:
             try:
@@ -159,28 +135,22 @@ class Variable():
         Called if left parameter does not support __truediv__
         and parameters are of different types
         """
-        try:
-            temp_val = self.val / other.val
-            temp_der = self.val * (-1 * (other.val)**(-2)) * other.der + self.der * (other.val)**(-1)
-            temp_der2 = None
-            return Variable(temp_val, temp_der, temp_der2)
-        except AttributeError:
-            try:
-                temp_val = float(other) / self.val
-                temp_der = (-1) * float(other) * self.val**(-2)*self.der
-                temp_der2 = None
-                return Variable(temp_val, temp_der, temp_der2)
-            except AttributeError:
-                print("Invalid input type: ", other)
+        return self / other
 
     def __pow__(self, other):
         """
         This changes what happens when you use '**'
+        Reference:
+            temp_der: https://www.wolframalpha.com/input/?i=first+derivative+of+f%28x%29**g%28x%29
+            temp_der2: https://www.wolframalpha.com/input/?i=second+derivative+of+f%28x%29**g%28x%29
         """
         try:
             temp_val = self.val ** other.val
-            temp_der = (self.val ** other.val) * (np.log(self.val) + other.val / self.val) * self.der
-            temp_der2 = (self.val ** other.val) * (np.log(self.val) + other.val / self.val) * self.der2
+            temp_der = (self.val ** (other.val - 1)) * (other.val * self.der + self.val * np.log(self.val) * other.der) #todoteam confirm swap
+            #old: (self.val ** other.val) * (np.log(self.val) + other.val / self.val) * self.der
+            temp_der2 = (self.val ** other.val) * ( ((other.val * self.der) / self.val) + np.log(self.val) * other.der)**2 + \
+                        (self.val ** other.val) * ( ((other.val * self.der2) / self.val) + ((2 * self.der * other.der) / self.val) - \
+                            ((other.val * (self.der**2)) / (self.val**2)) + np.log(self.val)*other.der2 )
             return Variable(temp_val, temp_der, temp_der2)
         except AttributeError:
             try:
@@ -198,21 +168,7 @@ class Variable():
         Called if left parameter does not support __pow__
         and parameters are of different types
         """
-        try:
-            temp_val = other.val ** self.val
-            temp_der = (self.val ** other.val) * (np.log(self.val) + other.val / self.val) * self.der
-            temp_der2 = None
-            return Variable(temp_val, temp_der, temp_der2)
-        except AttributeError:
-            try:
-                #exponential rule
-                n = float(other)
-                temp_val = (n)**self.val
-                temp_der = n**self.val * np.log(n) * self.der
-                temp_der2 = None
-                return Variable(temp_val, temp_der, temp_der2)
-            except AttributeError:
-                print("Invalid input type: ", other)
+        return self ** other
 
     # Unary Operations
     def __neg__(self):
@@ -226,7 +182,14 @@ class Variable():
 
     # Comparison Methods
     def __eq__(self, other):
-        """Equal Method for Variable Class"""
+        """Equal Method for Variable Class
+
+        todoteam what to do in this case
+        >>> np.array([1,2,3])==np.array([1,2,3])
+array([ True,  True,  True])
+>>> np.array([1,2,3])==np.array([1,3,3])
+array([ True, False,  True])
+        """
         try:
             return (self.val == other.val)
         except AttributeError:
@@ -252,7 +215,7 @@ class Variable():
             return  (self.val <= other.val)
         except AttributeError:
             return  (self.val <= other)
-    
+
     def __gt__(self, other):
         """Greater Than Method for Variable Class"""
         try:
