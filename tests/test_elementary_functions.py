@@ -11,15 +11,15 @@ import numpy as np
 
 ## sin ======================
 def test_sin_result_constant():
-    assert elem.sin(1.0) == np.sin(1.0)
+    assert np.isclose(elem.sin(1.0), np.sin(1.0))
 
 def test_sin_result_var():
     val = 1
     x = sc.Scalar(val)
     obj_generate = elem.sin(x)
     obj_wanted = sc.Scalar(np.sin(val), np.cos(val))
-    assert obj_generate.val == obj_wanted.val
-    assert obj_generate.der == obj_wanted.der
+    assert np.isclose(obj_generate.val, obj_wanted.val)
+    assert np.isclose(obj_generate.der, obj_wanted.der)
 
 def test_sin_types():
     with pytest.raises(TypeError):
@@ -27,15 +27,15 @@ def test_sin_types():
 
 ## cos ======================
 def test_cos_result_constant():
-    assert elem.cos(1.0) == np.cos(1.0)
+    assert np.isclose(elem.cos(1.0), np.cos(1.0))
 
 def test_cos_result_var():
     val = 1
     x = sc.Scalar(val)
     obj_generate = elem.cos(x)
     obj_wanted = sc.Scalar(np.cos(val), -np.sin(val))
-    assert obj_generate.val == obj_wanted.val
-    assert obj_generate.der == obj_wanted.der
+    assert np.isclose(obj_generate.val, obj_wanted.val)
+    assert np.isclose(obj_generate.der, obj_wanted.der)
 
 def test_cos_types():
     with pytest.raises(TypeError):
@@ -51,8 +51,8 @@ def test_tan_result_var():
     x = sc.Scalar(val)
     obj_generate = elem.tan(x)
     obj_wanted = sc.Scalar(np.tan(val), 1/(np.cos(val))**2)
-    assert obj_generate.val == obj_wanted.val
-    assert obj_generate.der == obj_wanted.der
+    assert np.isclose(obj_generate.val, obj_wanted.val)
+    assert np.isclose(obj_generate.der, obj_wanted.der)
 
 def test_tan_types():
     with pytest.raises(TypeError):
@@ -60,7 +60,7 @@ def test_tan_types():
 
 ## arcsin ======================
 def test_arcsin_result_constant():
-    assert elem.arcsin(1.0) == np.arcsin(1.0)
+    assert np.isclose(elem.arcsin(1.0), np.arcsin(1.0))
 
 ####### need check valid range
 def test_arcsin_result_constant_notvalid():
@@ -72,8 +72,8 @@ def test_arcsin_result_var():
     x = sc.Scalar(val)
     obj_generate = elem.arcsin(x)
     obj_wanted = sc.Scalar(np.arcsin(val), 1/np.sqrt(1-val**2))
-    assert obj_generate.val == obj_wanted.val
-    assert obj_generate.der == obj_wanted.der
+    assert np.isclose(obj_generate.val, obj_wanted.val)
+    assert np.isclose(obj_generate.der, obj_wanted.der)
 
 ####### need check valid range
 def test_arcsin_result_var_notvalid():
@@ -88,7 +88,7 @@ def test_arcsin_types():
 
 ## arccos ======================
 def test_arccos_result_constant():
-    assert elem.arccos(1.0) == np.arccos(1.0)
+    assert np.isclose(elem.arccos(1.0), np.arccos(1.0))
 
 ####### need check valid range
 def test_arccos_result_constant_notvalid():
@@ -100,8 +100,8 @@ def test_arccos_result_var():
     x = sc.Scalar(val)
     obj_generate = elem.arccos(x)
     obj_wanted = sc.Scalar(np.arccos(val), -1/np.sqrt(1-val**2))
-    assert obj_generate.val == obj_wanted.val
-    assert obj_generate.der == obj_wanted.der
+    assert np.isclose(obj_generate.val, obj_wanted.val)
+    assert np.isclose(obj_generate.der, obj_wanted.der)
 
 ####### need check valid range
 def test_arccos_result_var_notvalid():
@@ -116,15 +116,15 @@ def test_arccos_types():
 
 ## arctan ======================
 def test_arctan_result_constant():
-    assert elem.arctan(1.0) == np.arctan(1.0)
+    assert np.isclose(elem.arctan(1.0), np.arctan(1.0))
 
 def test_arctan_result_var():
     val = 1
     x = sc.Scalar(val)
     obj_generate = elem.arctan(x)
     obj_wanted = sc.Scalar(np.arctan(val), 1/(val**2+1))
-    assert obj_generate.val == obj_wanted.val
-    assert obj_generate.der == obj_wanted.der
+    assert np.isclose(obj_generate.val, obj_wanted.val)
+    assert np.isclose(obj_generate.der, obj_wanted.der)
 
 def test_arctan_types():
     with pytest.raises(TypeError):
@@ -132,15 +132,15 @@ def test_arctan_types():
 
 ## sinh ======================
 def test_sinh_result_constant():
-    assert elem.sinh(1.0) == np.sinh(1.0)
+    assert np.isclose(elem.sinh(1.0), np.sinh(1.0))
 
 def test_sihn_result_var():
     val = 1
     x = sc.Scalar(val)
     obj_generate = elem.sinh(x)
     obj_wanted = sc.Scalar(np.sinh(val), np.cosh(val))
-    assert obj_generate.val == obj_wanted.val
-    assert obj_generate.der == obj_wanted.der
+    assert np.isclose(obj_generate.val, obj_wanted.val)
+    assert np.isclose(obj_generate.der, obj_wanted.der)
 
 def test_sinh_types():
     with pytest.raises(TypeError):
@@ -148,15 +148,15 @@ def test_sinh_types():
 
 ## cosh ======================
 def test_cosh_result_constant():
-    assert elem.cosh(1.0) == np.cosh(1.0)
+    assert np.isclose(elem.cosh(1.0), np.cosh(1.0))
 
 def test_cosh_result_var():
     val = 1
     x = sc.Scalar(val)
     obj_generate = elem.cosh(x)
     obj_wanted = sc.Scalar(np.cosh(val), np.sinh(val))
-    assert obj_generate.val == obj_wanted.val
-    assert obj_generate.der == obj_wanted.der
+    assert np.isclose(obj_generate.val, obj_wanted.val)
+    assert np.isclose(obj_generate.der, obj_wanted.der)
 
 def test_cosh_types():
     with pytest.raises(TypeError):
@@ -164,15 +164,15 @@ def test_cosh_types():
 
 ## tanh ======================
 def test_tanh_result_constant():
-    assert elem.tanh(1.0) == np.tanh(1.0)
+    assert np.isclose(elem.tanh(1.0), np.tanh(1.0))
 
 def test_tanh_result_var():
     val = 1
     x = sc.Scalar(val)
     obj_generate = elem.tanh(x)
     obj_wanted = sc.Scalar(np.tanh(val), (1/np.cosh(val))**2)
-    assert obj_generate.val == obj_wanted.val
-    assert round(obj_generate.der, 10) == round(obj_wanted.der, 10)
+    assert np.isclose(obj_generate.val, obj_wanted.val)
+    assert np.isclose(obj_generate.der, obj_wanted.der)
 
 def test_tanh_types():
     with pytest.raises(TypeError):
@@ -180,15 +180,15 @@ def test_tanh_types():
 
 ## exp ======================
 def test_exp_result_constant():
-    assert elem.exp(1.0) == np.exp(1.0)
+    assert np.isclose(elem.exp(1.0), np.exp(1.0))
 
 def test_exp_result_var():
     val = 1
     x = sc.Scalar(val)
     obj_generate = elem.exp(x)
     obj_wanted = sc.Scalar(np.exp(val), np.exp(val))
-    assert obj_generate.val == obj_wanted.val
-    assert obj_generate.der == obj_wanted.der
+    assert np.isclose(obj_generate.val, obj_wanted.val)
+    assert np.isclose(obj_generate.der, obj_wanted.der)
 
 def test_exp_types():
     with pytest.raises(TypeError):
@@ -196,15 +196,15 @@ def test_exp_types():
 
 ## log ======================
 def test_log_result_constant():
-    assert elem.log(1.0) == np.log(1.0)
+    assert np.isclose(elem.log(1.0), np.log(1.0))
 
 def test_log_result_var():
     val = 1
     x = sc.Scalar(val)
     obj_generate = elem.log(x)
     obj_wanted = sc.Scalar(np.log(val), 1/(val))
-    assert obj_generate.val == obj_wanted.val
-    assert obj_generate.der == obj_wanted.der
+    assert np.isclose(obj_generate.val, obj_wanted.val)
+    assert np.isclose(obj_generate.der, obj_wanted.der)
 
 def test_log_types():
     with pytest.raises(TypeError):
