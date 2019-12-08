@@ -209,3 +209,19 @@ def test_log_result_var():
 def test_log_types():
     with pytest.raises(TypeError):
         elem.log("hi")
+
+## sqrt ======================
+def test_sqrt_result_constant():
+    assert np.isclose(elem.sqrt(10.0), np.sqrt(10.0))
+
+def test_sqrt_result_var():
+    val = 4
+    x = sc.Scalar(val)
+    obj_generate = elem.sqrt(x)
+    obj_wanted = sc.Scalar(np.sqrt(val), 1/(2*np.sqrt(x.val)))
+    assert np.isclose(obj_generate.val, obj_wanted.val)
+    assert np.isclose(obj_generate.der, obj_wanted.der)
+
+def test_sqrt_types():
+    with pytest.raises(TypeError):
+        elem.sqrt("hi")

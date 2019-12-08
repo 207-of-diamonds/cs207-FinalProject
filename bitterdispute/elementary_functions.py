@@ -138,3 +138,14 @@ def log(x, base=math.e):
         return Scalar(value, derivative)
     except AttributeError:
         return math.log(x, base)
+    
+def sqrt(x):
+    """Defines what happens when square root operations performed on
+    a Scalar() object or a constant value. Includes calculation of derivative.
+    """
+    try:
+        value = np.sqrt(x.val)
+        derivative = 1/(2*np.sqrt(x.val))
+        return Scalar(value, derivative)
+    except AttributeError:
+        return np.sqrt(x)
