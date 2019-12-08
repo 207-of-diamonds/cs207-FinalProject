@@ -98,32 +98,27 @@ def test_pow_results():
 def test_add_types():
     with pytest.raises(TypeError):
         sc.Scalar("hi") + 5
-    with pytest.raises(ValueError):
-        sc.Scalar(5) + "hi"
+    assert str(sc.Scalar(5) + "hi") == 'None'
 
 def test_sub_types():
     with pytest.raises(TypeError):
         sc.Scalar("hi") - 5
-    with pytest.raises(ValueError):
-        sc.Scalar(5) - "hi"
+    assert str(sc.Scalar(5) - "hi") == 'None'
         
 def test_mul_types():
     with pytest.raises(TypeError):
         sc.Scalar("hi") * 5
-    with pytest.raises(ValueError):
-        sc.Scalar(5) * "hi"
+    assert str(sc.Scalar(5) * "hi") == 'None'
         
 def test_div_types():
     with pytest.raises(TypeError):
         sc.Scalar("hi") / 5
-    with pytest.raises(ValueError):
-        sc.Scalar(5) / "hi"
+    assert str(sc.Scalar(5) / "hi") == 'None'
         
 def test_pow_types():
     with pytest.raises(TypeError):
         sc.Scalar("hi") ** 5
-    with pytest.raises(ValueError):
-        sc.Scalar(5) ** "hi"
+    assert str(sc.Scalar(5) ** "hi") == 'None'
         
 def test_eq_results():
     x1 = sc.Scalar(1)
