@@ -37,7 +37,7 @@ class Scalar():
                 temp_der = self.der + 0
                 temp_der2 = self.der2 + 0
                 return Scalar(temp_val, temp_der, temp_der2)
-            except AttributeError:
+            except ValueError:
                 print("Invalid input type: ", other)
 
     def __radd__(self, other):
@@ -65,7 +65,7 @@ class Scalar():
                 temp_der = self.der - 0
                 temp_der2 = self.der2 - 0
                 return Scalar(temp_val, temp_der, temp_der2)
-            except AttributeError:
+            except ValueError:
                 print("Invalid input type: ", other)
 
     def __rsub__(self, other):
@@ -93,7 +93,7 @@ class Scalar():
                 temp_der = self.der * float(other)
                 temp_der2 = self.der2 * float(other)
                 return Scalar(temp_val, temp_der, temp_der2)
-            except AttributeError:
+            except ValueError:
                 print("Invalid input type: ", other)
 
     def __rmul__(self, other):
@@ -122,7 +122,7 @@ class Scalar():
                 temp_der = self.der / float(other)
                 temp_der2 = self.der2 / float(other)
                 return Scalar(temp_val, temp_der, temp_der2)
-            except AttributeError:
+            except ValueError:
                 print("Invalid input type: ", other)
 
     def __rtruediv__(self, other):
@@ -158,7 +158,7 @@ class Scalar():
                 temp_der = n * self.val**(n-1) * self.der
                 temp_der2 = n * self.val**(n-2) * (self.val * self.der2 + (n-1) * (self.der**2))
                 return Scalar(temp_val, temp_der, temp_der2)
-            except AttributeError:
+            except ValueError:
                 print("Invalid input type: ", other)
 
     def __rpow__(self, other):
@@ -188,7 +188,7 @@ class Scalar():
                 temp_der = np.log(n) * (n ** self.val) * self.der
                 temp_der2 = np.log(n) * (n ** self.val) * ( self.der2 + np.log(n) * (self.der**2) )
                 return Scalar(temp_val, temp_der, temp_der2)
-            except AttributeError:
+            except ValueError:
                 print("Invalid input type: ", other)
 
     # Unary Operations

@@ -12,6 +12,7 @@ def test_start_results():
     assert x.val == 5
     assert x.der == 1
     assert x.der2 == 0
+    assert x.__str__() == 'x: 5'
 
 def test_add_results():
     x1 = sc.Scalar(1)
@@ -97,49 +98,75 @@ def test_pow_results():
 def test_add_types():
     with pytest.raises(TypeError):
         sc.Scalar("hi") + 5
+    with pytest.raises(TypeError):
+        sc.Scalar(5) + "hi"
 
 def test_sub_types():
     with pytest.raises(TypeError):
         sc.Scalar("hi") - 5
+    with pytest.raises(TypeError):
+        sc.Scalar(5) - "hi"
         
 def test_mul_types():
     with pytest.raises(TypeError):
         sc.Scalar("hi") * 5
+    with pytest.raises(TypeError):
+        sc.Scalar(5) * "hi"
         
 def test_div_types():
     with pytest.raises(TypeError):
         sc.Scalar("hi") / 5
+    with pytest.raises(TypeError):
+        sc.Scalar(5) / "hi"
         
 def test_pow_types():
     with pytest.raises(TypeError):
         sc.Scalar("hi") ** 5
+    with pytest.raises(TypeError):
+        sc.Scalar(5) ** "hi"
         
 def test_eq_results():
     x1 = sc.Scalar(1)
     x2 = sc.Scalar(1)
+    x3 = 1
     assert(x1 == x2)
+    assert(x1 == x3)
     assert(not (x1 != x2))
+    assert(not (x1 != x3))
+
     
 def test_lt_results():
     x1 = sc.Scalar(1)
     x2 = sc.Scalar(2)
+    x3 = 2
     assert(x1 < x2)
+    assert(x1 < x3)
     assert(not (x1 > x2))
+    assert(not (x1 > x3))
     
 def test_le_results():
     x1 = sc.Scalar(2)
     x2 = sc.Scalar(2)
+    x3 = 2
     assert(x1 <= x2)
+    assert(x1 <= x3)
     assert(not (x1 < x2))
+    assert(not (x1 < x3))
     
 def test_gt_results():
     x1 = sc.Scalar(4)
     x2 = sc.Scalar(2)
+    x3 = 2
     assert(x1 > x2)
+    assert(x1 > x3)
     assert(not (x1 < x2))
+    assert(not (x1 < x3))
     
 def test_ge_results():
     x1 = sc.Scalar(4)
     x2 = sc.Scalar(4)
+    x3 = 4
     assert(x1 >= x2)
+    assert(x1 >= x3)
     assert(not (x1 > x2))
+    assert(not (x1 > x3))
