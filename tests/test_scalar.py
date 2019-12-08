@@ -15,7 +15,7 @@ def test_start_results():
 
 def test_str():
     x = sc.Scalar(5)
-    assert x.__str__() == 'x: 5'
+    assert x.__str__() == '5'
     
 def test_add_results():
     x1 = sc.Scalar(1)
