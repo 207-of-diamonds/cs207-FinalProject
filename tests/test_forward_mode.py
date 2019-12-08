@@ -17,9 +17,9 @@ def test_standard_formula1(mocker, capsys):
     """
     mocker.patch('builtins.input', side_effect=[2, 3, 5, '4*x+7*y'])
     x = AD()
-    assert x.val == 41
-    assert x.der == 11
-    assert x.formula == '4*x+7*y'
+    assert x.values == [41]
+    assert x.derivatives == [11]
+    assert x.formulas == ['4*x+7*y']
 
 def test_standard_formula2(mocker):
     """
@@ -32,9 +32,9 @@ def test_standard_formula2(mocker):
     """
     mocker.patch('builtins.input', side_effect=[3, 3, 5, 8, '4/x-7*y+z/2'])
     x = AD()
-    assert x.val == -33
-    assert x.der == -6.5625
-    assert x.formula == '4/x-7*y+z/2'
+    assert x.values == [-33]
+    assert x.derivatives == [-6.5625]
+    assert x.formulas == ['4/x-7*y+z/2']
 
 def test_elementary_functions1(mocker):
     """
@@ -46,9 +46,9 @@ def test_elementary_functions1(mocker):
     """
     mocker.patch('builtins.input', side_effect=[2, 5, 8, 'sin(x)*7+4*tanh(y)'])
     x = AD()
-    assert round(x.val, 10) == round(10.925144543414053, 10)
-    assert round(x.der, 10) == round(-1.0177739037365197, 10)
-    assert x.formula == 'sin(x)*7+4*tanh(y)'
+    assert [round(val, 10) for val in x.values] == [round(10.925144543414053, 10)]
+    assert [round(der, 10) for der in x.derivatives] == [round(-1.0177739037365197, 10)]
+    assert x.formulas == ['sin(x)*7+4*tanh(y)']
 
 def test_elementary_functions2(mocker):
     """
@@ -61,9 +61,9 @@ def test_elementary_functions2(mocker):
     """
     mocker.patch('builtins.input', side_effect=[3, 2, 7, 1, 'sin(cos(tan(x)*y)*z)'])
     x = AD()
-    assert round(x.val, 10) == round(-0.18607529153476626, 10)
-    assert round(x.der, 10) == round(49.86796453760523, 10)
-    assert x.formula == 'sin(cos(tan(x)*y)*z)'
+    assert [round(val, 10) for val in x.values] == [round(-0.18607529153476626, 10)]
+    assert [round(der, 10) for der in x.derivatives] == [round(49.86796453760523, 10)]
+    assert x.formulas == ['sin(cos(tan(x)*y)*z)']
 
 def test_power(mocker):
     """
@@ -74,9 +74,9 @@ def test_power(mocker):
     """
     mocker.patch('builtins.input', side_effect=[1, 3, 'x**5'])
     x = AD()
-    assert x.val == 243.0
-    assert x.der == 405.0
-    assert x.formula == 'x**5'
+    assert x.values == [243.0]
+    assert x.derivatives == [405.0]
+    assert x.formulas == ['x**5']
 
 def test_positive(mocker):
     """
@@ -88,6 +88,6 @@ def test_positive(mocker):
     """
     mocker.patch('builtins.input', side_effect=[2, 2, 8, '-x+3*(y)'])
     x = AD()
-    assert x.val == -2.0
-    assert x.der == 2.0
-    assert x.formula == '-x+3*(y)'
+    assert x.values == [-2.0]
+    assert x.derivatives == [2.0]
+    assert x.formulas == ['-x+3*(y)']
