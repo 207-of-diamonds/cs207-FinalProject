@@ -98,31 +98,31 @@ def test_pow_results():
 def test_add_types():
     with pytest.raises(TypeError):
         sc.Scalar("hi") + 5
-    with pytest.raises(TypeError):
+    with pytest.raises(ValueError):
         sc.Scalar(5) + "hi"
 
 def test_sub_types():
     with pytest.raises(TypeError):
         sc.Scalar("hi") - 5
-    with pytest.raises(TypeError):
+    with pytest.raises(ValueError):
         sc.Scalar(5) - "hi"
         
 def test_mul_types():
     with pytest.raises(TypeError):
         sc.Scalar("hi") * 5
-    with pytest.raises(TypeError):
+    with pytest.raises(ValueError):
         sc.Scalar(5) * "hi"
         
 def test_div_types():
     with pytest.raises(TypeError):
         sc.Scalar("hi") / 5
-    with pytest.raises(TypeError):
+    with pytest.raises(ValueError):
         sc.Scalar(5) / "hi"
         
 def test_pow_types():
     with pytest.raises(TypeError):
         sc.Scalar("hi") ** 5
-    with pytest.raises(TypeError):
+    with pytest.raises(ValueError):
         sc.Scalar(5) ** "hi"
         
 def test_eq_results():
