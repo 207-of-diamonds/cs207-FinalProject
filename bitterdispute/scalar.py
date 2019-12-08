@@ -16,7 +16,7 @@ class Scalar():
         self.der2 = second_derivative
 
     def __str__(self):
-        return f"{self.name}: {self.val}" # todo update
+        return f"{self.val}" # todo update
 
     def __add__(self, other):
         """
@@ -39,7 +39,6 @@ class Scalar():
                 return Scalar(temp_val, temp_der, temp_der2)
             except AttributeError:
                 print("Invalid input type: ", other)
-                # todo should we manually specify the types that are acceptable?
 
     def __radd__(self, other):
         """
@@ -114,8 +113,7 @@ class Scalar():
         """
         try:
             temp_val = self.val / other.val
-            temp_der = (other.val * self.der - self.val * other.der) / (other.val**2) # todoteam confirm this swap is ok
-            # old: self.val * (-1 * (other.val)**(-2)) * other.der + self.der * (other.val)**(-1)
+            temp_der = (other.val * self.der - self.val * other.der) / (other.val**2)
             temp_der2 = ( (other.val**2) * self.der2 - other.val * (2 * self.der * other.der + self.val * other.der2) + 2 * self.val * (other.der**2) ) / (other.val ** 3)
             return Scalar(temp_val, temp_der, temp_der2)
         except AttributeError:
@@ -138,17 +136,19 @@ class Scalar():
         """
         This changes what happens when you use '**'
         Reference:
+        try:
             temp_der: https://www.wolframalpha.com/input/?i=first+derivative+of+f%28x%29**g%28x%29
             temp_der2: https://www.wolframalpha.com/input/?i=second+derivative+of+f%28x%29**g%28x%29
+        except AttributeError: (Same if you use 3 instead of y)
+            temp_der: https://www.wolframalpha.com/input/?i=first+derivative+of+f%28x%29**y
+            temp_der2: https://www.wolframalpha.com/input/?i=second+derivative+of+f%28x%29**y
         """
         try:
             temp_val = self.val ** other.val
-            #temp_der looks good to me
-            temp_der = (self.val ** (other.val - 1)) * (other.val * self.der + self.val * np.log(self.val) * other.der) #todoteam confirm swap
-            #old: (self.val ** other.val) * (np.log(self.val) + other.val / self.val) * self.der
-            temp_der2 = (self.val ** other.val) * ( ((other.val * self.der) / self.val) + np.log(self.val) * other.der)**2 + \
-                        (self.val ** other.val) * ( ((other.val * self.der2) / self.val) + ((2 * self.der * other.der) / self.val) - \
-                            ((other.val * (self.der**2)) / (self.val**2)) + np.log(self.val)*other.der2 )
+            temp_der = (self.val ** (other.val - 1)) * (other.val * self.der + self.val * np.log(self.val) * other.der)
+            temp_der2 = (self.val ** other.val) * ( other.val * self.der / self.val + np.log(self.val) * other.der )**2 + \
+                        (self.val ** other.val) * ( other.val * self.der2 / self.val + 2 * self.der * other.der / self.val - \
+                            other.val * (self.der**2) / (self.val**2) + np.log(self.val) * other.der2 )
             return Scalar(temp_val, temp_der, temp_der2)
         except AttributeError:
             try:
@@ -156,7 +156,7 @@ class Scalar():
                 n = float(other)
                 temp_val = self.val**(n)
                 temp_der = n * self.val**(n-1) * self.der
-                temp_der2 = n * self.val**(n-1) * self.der2
+                temp_der2 = n * self.val**(n-2) * (self.val * self.der2 + (n-1) * (self.der**2))
                 return Scalar(temp_val, temp_der, temp_der2)
             except AttributeError:
                 print("Invalid input type: ", other)
@@ -165,30 +165,28 @@ class Scalar():
         """
         Called if left parameter does not support __pow__
         and parameters are of different types
+        Reference:
+        try:
+            temp_der: https://www.wolframalpha.com/input/?i=first+derivative+of+g%28x%29**f%28x%29
+            temp_der2:https://www.wolframalpha.com/input/?i=second+derivative+of+g%28x%29**f%28x%29
+        except:
+            temp_der: https://www.wolframalpha.com/input/?i=first+derivative+of+y**f%28x%29
+            temp_der2:https://www.wolframalpha.com/input/?i=second+derivative+of+y**f%28x%29
         """
         try:
             temp_val = other.val ** self.val
-            temp_der = (other.val ** (self.val - 1)) * (self.val * other.der + other.val * np.log(other.val) * self.der)
-            #I think that this should be the new temp_der
-            #temp_der = other.val ** self.val * np.log(other.val)
-            #I am not sure what temp_der2 should be
-            temp_der2 = (other.val ** self.val) * ( ((self.val * other.der) / other.val) + np.log(other.val) * self.der)**2 + \
-                        (other.val ** self.val) * ( ((self.val * other.der2) / other.val) + ((2 * other.der * self.der) / other.val) - \
-                            ((self.val * (other.der**2)) / (other.val**2)) + np.log(other.val)*self.der2 )
+            temp_der = (other.val ** (self.val - 1)) * ( other.val * self.der * np.log(other.val) + self.val * other.der )
+            temp_der2 = (other.val ** self.val) * ( self.der * np.log(other.val) + self.val * other.der / other.val)**2 + \
+                        (other.val ** self.val) * ( self.der2 * np.log(other.val) + 2 * self.der * other.der / other.val + \
+                        self.val * other.der2 / other.val - self.val * (other.der**2) / (other.val**2) )
             return Scalar(temp_val, temp_der, temp_der2)
         except AttributeError:
             try:
                 #exponential rule
                 n = float(other)
                 temp_val = (n)**self.val
-                temp_der = (n ** (self.val - 1)) * (self.val * 1 + n * np.log(n) * self.der)
-                #I think this should be the new temp_der
-                #temp_der = (n ** self.val) * np.log(n) * self.der
-                #I am not sure what temp_der2 should be
-                temp_der2 = (n ** self.val) * ( ((self.val * 1) / n) + np.log(n) * self.der)**2 + \
-                            (n ** self.val) * ( ((self.val * 0) / n) + ((2 * 1 * self.der) / n) - \
-                                ((self.val * (1**2)) / (n**2)) + np.log(n)*self.der2)
-                # todoteam confirm swap n**self.val * np.log(n) * self.der
+                temp_der = np.log(n) * (n ** self.val) * self.der
+                temp_der2 = np.log(n) * (n ** self.val) * ( self.der2 + np.log(n) * (self.der**2) )
                 return Scalar(temp_val, temp_der, temp_der2)
             except AttributeError:
                 print("Invalid input type: ", other)
