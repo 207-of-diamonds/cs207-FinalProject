@@ -74,7 +74,7 @@ class Scalar():
         Called if left parameter does not support __sub__
         and parameters are of different types
         """
-        return self - other
+        return -self + other
 
     def __mul__(self, other):
         """
@@ -132,7 +132,7 @@ class Scalar():
         Called if left parameter does not support __truediv__
         and parameters are of different types
         """
-        return self / other
+        return (self**-1) * other
 
     def __pow__(self, other):
         """
@@ -165,7 +165,26 @@ class Scalar():
         Called if left parameter does not support __pow__
         and parameters are of different types
         """
-        return self ** other
+        try:
+            temp_val = other.val ** self.val
+            temp_der = (other.val ** (self.val - 1)) * (self.val * other.der + other.val * np.log(other.val) * self.der)
+            temp_der2 = (other.val ** self.val) * ( ((self.val * other.der) / other.val) + np.log(other.val) * self.der)**2 + \
+                        (other.val ** self.val) * ( ((self.val * other.der2) / other.val) + ((2 * other.der * self.der) / other.val) - \
+                            ((self.val * (other.der**2)) / (other.val**2)) + np.log(other.val)*self.der2 )
+            return Scalar(temp_val, temp_der, temp_der2)
+        except AttributeError:
+            try:
+                #exponential rule
+                n = float(other)
+                temp_val = (n)**self.val
+                temp_der = (n ** (self.val - 1)) * (self.val * 1 + n * np.log(n) * self.der)
+                temp_der2 = (n ** self.val) * ( ((self.val * 1) / n) + np.log(n) * self.der)**2 + \
+                            (n ** self.val) * ( ((self.val * 0) / n) + ((2 * 1 * self.der) / n) - \
+                                ((self.val * (1**2)) / (n**2)) + np.log(n)*self.der2)
+                # todoteam confirm swap n**self.val * np.log(n) * self.der
+                return Scalar(temp_val, temp_der, temp_der2)
+            except AttributeError:
+                print("Invalid input type: ", other)
 
     # Unary Operations
     def __neg__(self):
