@@ -143,6 +143,7 @@ class Scalar():
         """
         try:
             temp_val = self.val ** other.val
+            #temp_der looks good to me
             temp_der = (self.val ** (other.val - 1)) * (other.val * self.der + self.val * np.log(self.val) * other.der) #todoteam confirm swap
             #old: (self.val ** other.val) * (np.log(self.val) + other.val / self.val) * self.der
             temp_der2 = (self.val ** other.val) * ( ((other.val * self.der) / self.val) + np.log(self.val) * other.der)**2 + \
@@ -168,6 +169,9 @@ class Scalar():
         try:
             temp_val = other.val ** self.val
             temp_der = (other.val ** (self.val - 1)) * (self.val * other.der + other.val * np.log(other.val) * self.der)
+            #I think that this should be the new temp_der
+            #temp_der = other.val ** self.val * np.log(other.val)
+            #I am not sure what temp_der2 should be
             temp_der2 = (other.val ** self.val) * ( ((self.val * other.der) / other.val) + np.log(other.val) * self.der)**2 + \
                         (other.val ** self.val) * ( ((self.val * other.der2) / other.val) + ((2 * other.der * self.der) / other.val) - \
                             ((self.val * (other.der**2)) / (other.val**2)) + np.log(other.val)*self.der2 )
@@ -178,6 +182,9 @@ class Scalar():
                 n = float(other)
                 temp_val = (n)**self.val
                 temp_der = (n ** (self.val - 1)) * (self.val * 1 + n * np.log(n) * self.der)
+                #I think this should be the new temp_der
+                #temp_der = (n ** self.val) * np.log(n) * self.der
+                #I am not sure what temp_der2 should be
                 temp_der2 = (n ** self.val) * ( ((self.val * 1) / n) + np.log(n) * self.der)**2 + \
                             (n ** self.val) * ( ((self.val * 0) / n) + ((2 * 1 * self.der) / n) - \
                                 ((self.val * (1**2)) / (n**2)) + np.log(n)*self.der2)
