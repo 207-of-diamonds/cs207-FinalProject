@@ -1,0 +1,13 @@
+README.md
+bitterdispute
+setup.py
+bitterdispute/__init__.py
+bitterdispute/elementary_functions.py
+bitterdispute/forward_mode.py
+bitterdispute/scalar.py
+bitterdispute/setup.py
+bitterdispute.egg-info/PKG-INFO
+bitterdispute.egg-info/SOURCES.txt
+bitterdispute.egg-info/dependency_links.txt
+bitterdispute.egg-info/requires.txt
+bitterdispute.egg-info/top_level.txt
