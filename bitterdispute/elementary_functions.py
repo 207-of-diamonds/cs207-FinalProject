@@ -1,4 +1,4 @@
-from variable import Variable as Scalar
+from bitterdispute.variable import Variable as Scalar
 import numpy as np
 import math
 
