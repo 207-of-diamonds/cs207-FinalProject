@@ -20,7 +20,6 @@ class Variable():
             self.der2 = second_derivative
         else:
             self.der2 = {name: second_derivative}
-        #self.partials = [name] we tried a new method instead of saving partials
 
     def __str__(self):
         return f"{self.val}" # todo update
@@ -32,7 +31,6 @@ class Variable():
             temp_der: https://www.wolframalpha.com/input/?i=first+derivative+of+f%28x%29%2Bg%28x%29
             temp_der2: https://www.wolframalpha.com/input/?i=second+derivative+of+f%28x%29%2Bg%28x%29
         """
-        #self.partials = set(list(self.der.keys()) + list(other.der.keys()))
         temp_der = {}
         temp_der2 = {}
         try:
@@ -47,9 +45,11 @@ class Variable():
             return Variable(self.name, temp_val, temp_der, temp_der2)
         except AttributeError:
             try:
+                temp_unique_var = set(list(self.der.keys()) + list(other.der.keys()))
+
                 temp_val = self.val + float(other)
 
-                for variable in self.der:
+                for variable in temp_unique_var:
                     temp_der[variable] = self.der.get(variable, 0) + 0
                     temp_der2[variable] = self.der2.get(variable, 0) + 0
                 return Variable(self.name, temp_val, temp_der, temp_der2)
@@ -70,25 +70,28 @@ class Variable():
             temp_der: https://www.wolframalpha.com/input/?i=first+derivative+of+f%28x%29-g%28x%29
             temp_der2: https://www.wolframalpha.com/input/?i=second+derivative+of+f%28x%29-g%28x%29
         """
-        self.partials = set(list(self.der.keys()) + list(self.der.keys()))
         temp_der = {}
         temp_der2 = {}
         try:
+            temp_unique_var = set(list(self.der.keys()) + list(other.der.keys()))
+
             temp_val = self.val - other.val
 
-            for variable in self.partials:
+            for variable in temp_unique_var:
                 temp_der[variable] = self.der.get(variable, 0) - other.der.get(variable, 0)
                 temp_der2[variable] = self.der2.get(variable, 0) - other.der2.get(variable, 0)
 
-            return Variable(temp_val, temp_der, temp_der2)
+            return Variable(self.name, temp_val, temp_der, temp_der2)
         except AttributeError:
             try:
+                temp_unique_var = set(list(self.der.keys()) + list(other.der.keys()))
+
                 temp_val = self.val - float(other)
 
-                for variable in self.partials:
+                for variable in temp_unique_var:
                     temp_der[variable] = self.der.get(variable, 0) - 0
                     temp_der2[variable] = self.der2.get(variable, 0) - 0
-                return Variable(temp_val, temp_der, temp_der2)
+                return Variable(self.name, temp_val, temp_der, temp_der2)
             except ValueError:
                 print("Invalid input type: ", other)
 
@@ -106,17 +109,28 @@ class Variable():
             temp_der: https://www.wolframalpha.com/input/?i=first+derivative+of+f%28x%29*g%28x%29
             temp_der2: https://www.wolframalpha.com/input/?i=second+derivative+of+f%28x%29*g%28x%29
         """
+        temp_der = {}
+        temp_der2 = {}
         try:
+            temp_unique_var = set(list(self.der.keys()) + list(other.der.keys()))
+
             temp_val = self.val * other.val
-            temp_der = other.val * self.der + self.val * other.der
-            temp_der2 = other.val * self.der2 + 2 * self.der * other.der + self.val * other.der2
-            return Variable(temp_val, temp_der, temp_der2)
+
+            for variable in temp_unique_var:
+                temp_der[variable] = other.val * self.der.get(variable,0) + self.val * other.der.get(variable,0)
+                temp_der2[variable] = other.val * self.der2.get(variable,0) + 2 * self.der.get(variable,0) * other.der.get(variable,0) + self.val * other.der2.get(variable,0)
+
+            return Variable(self.name, temp_val, temp_der, temp_der2)
         except AttributeError:
             try:
+                temp_unique_var = set(list(self.der.keys()) + list(other.der.keys()))
+
                 temp_val = self.val * float(other)
-                temp_der = self.der * float(other)
-                temp_der2 = self.der2 * float(other)
-                return Variable(temp_val, temp_der, temp_der2)
+
+                for variable in temp_unique_var:
+                    temp_der[variable] = self.der.get(variable,0) * float(other)
+                    temp_der2[variable] = self.der2.get(variable, 0) * float(other)
+                return Variable(self.name, temp_val, temp_der, temp_der2)
             except ValueError:
                 print("Invalid input type: ", other)
 
@@ -135,17 +149,28 @@ class Variable():
             temp_der: https://www.wolframalpha.com/input/?i=first+derivative+of+f%28x%29%2Fg%28x%29
             temp_der2: https://www.wolframalpha.com/input/?i=second+derivative+of+f%28x%29%2Fg%28x%29
         """
+        temp_der = {}
+        temp_der2 = {}
         try:
+            temp_unique_var = set(list(self.der.keys()) + list(other.der.keys()))
+
             temp_val = self.val / other.val
-            temp_der = (other.val * self.der - self.val * other.der) / (other.val**2)
-            temp_der2 = ( (other.val**2) * self.der2 - other.val * (2 * self.der * other.der + self.val * other.der2) + 2 * self.val * (other.der**2) ) / (other.val ** 3)
-            return Variable(temp_val, temp_der, temp_der2)
+
+            for variable in temp_unique_var:
+                temp_der[variable] = (other.val * self.der.get(variable,0) - self.val * other.der.get(variable,0)) / (other.val**2)
+                temp_der2[variable] = ( (other.val**2) * self.der2.get(variable,0) - other.val * (2 * self.der.get(variable,0) * other.der.get(variable,0) + self.val * other.der2.get(variable,0)) + 2 * self.val * (other.der.get(variable,0)**2) ) / (other.val ** 3)
+
+            return Variable(self.name, temp_val, temp_der, temp_der2)
         except AttributeError:
             try:
+                temp_unique_var = set(list(self.der.keys()) + list(other.der.keys()))
+
                 temp_val = self.val / float(other)
-                temp_der = self.der / float(other)
-                temp_der2 = self.der2 / float(other)
-                return Variable(temp_val, temp_der, temp_der2)
+
+                for variable in temp_unique_var:
+                    temp_der[variable] = self.der.get(variable,0) / float(other)
+                    temp_der2[variable] = self.der2.get(variable, 0) / float(other)
+                return Variable(self.name, temp_val, temp_der, temp_der2)
             except ValueError:
                 print("Invalid input type: ", other)
 
@@ -167,21 +192,31 @@ class Variable():
             temp_der: https://www.wolframalpha.com/input/?i=first+derivative+of+f%28x%29**y
             temp_der2: https://www.wolframalpha.com/input/?i=second+derivative+of+f%28x%29**y
         """
+        temp_der = {}
+        temp_der2 = {}
         try:
+            temp_unique_var = set(list(self.der.keys()) + list(other.der.keys()))
+
             temp_val = self.val ** other.val
-            temp_der = (self.val ** (other.val - 1)) * (other.val * self.der + self.val * np.log(self.val) * other.der)
-            temp_der2 = (self.val ** other.val) * ( other.val * self.der / self.val + np.log(self.val) * other.der )**2 + \
-                        (self.val ** other.val) * ( other.val * self.der2 / self.val + 2 * self.der * other.der / self.val - \
-                            other.val * (self.der**2) / (self.val**2) + np.log(self.val) * other.der2 )
-            return Variable(temp_val, temp_der, temp_der2)
+
+            for variable in temp_unique_var:
+                temp_der[variable] = (self.val ** (other.val - 1)) * (other.val * self.der.get(variable,0) + self.val * np.log(self.val) * other.der.get(variable,0))
+                temp_der2[variable] = (self.val ** other.val) * ( other.val * self.der.get(variable,0) / self.val + np.log(self.val) * other.der.get(variable,0) )**2 + \
+                            (self.val ** other.val) * ( other.val * self.der2.get(variable,0) / self.val + 2 * self.der.get(variable,0) * other.der.get(variable,0) / self.val - \
+                                other.val * (self.der.get(variable,0)**2) / (self.val**2) + np.log(self.val) * other.der2.get(variable,0) )
+
+            return Variable(self.name, temp_val, temp_der, temp_der2)
         except AttributeError:
             try:
-                #power rule
                 n = float(other)
+                temp_unique_var = set(list(self.der.keys()) + list(other.der.keys()))
+
                 temp_val = self.val**(n)
-                temp_der = n * self.val**(n-1) * self.der
-                temp_der2 = n * self.val**(n-2) * (self.val * self.der2 + (n-1) * (self.der**2))
-                return Variable(temp_val, temp_der, temp_der2)
+
+                for variable in temp_unique_var:
+                    temp_der[variable] = n * self.val**(n-1) * self.der.get(variable,0)
+                    temp_der2[variable] = n * self.val**(n-2) * (self.val * self.der2.get(variable,0) + (n-1) * (self.der.get(variable,0)**2))
+                return Variable(self.name, temp_val, temp_der, temp_der2)
             except ValueError:
                 print("Invalid input type: ", other)
 
@@ -197,21 +232,31 @@ class Variable():
             temp_der: https://www.wolframalpha.com/input/?i=first+derivative+of+y**f%28x%29
             temp_der2:https://www.wolframalpha.com/input/?i=second+derivative+of+y**f%28x%29
         """
+        temp_der = {}
+        temp_der2 = {}
         try:
+            temp_unique_var = set(list(self.der.keys()) + list(other.der.keys()))
+
             temp_val = other.val ** self.val
-            temp_der = (other.val ** (self.val - 1)) * ( other.val * self.der * np.log(other.val) + self.val * other.der )
-            temp_der2 = (other.val ** self.val) * ( self.der * np.log(other.val) + self.val * other.der / other.val)**2 + \
-                        (other.val ** self.val) * ( self.der2 * np.log(other.val) + 2 * self.der * other.der / other.val + \
-                        self.val * other.der2 / other.val - self.val * (other.der**2) / (other.val**2) )
-            return Variable(temp_val, temp_der, temp_der2)
+
+            for variable in temp_unique_var:
+                temp_der[variable] = (other.val ** (self.val - 1)) * ( other.val * self.der.get(variable,0) * np.log(other.val) + self.val * other.der.get(variable,0) )
+                temp_der2[variable] = (other.val ** self.val) * ( self.der.get(variable,0) * np.log(other.val) + self.val * other.der.get(variable,0) / other.val)**2 + \
+                            (other.val ** self.val) * ( self.der2.get(variable,0) * np.log(other.val) + 2 * self.der.get(variable,0) * other.der.get(variable,0) / other.val + \
+                            self.val * other.der2.get(variable,0) / other.val - self.val * (other.der.get(variable,0)**2) / (other.val**2) )
+
+            return Variable(self.name, temp_val, temp_der, temp_der2)
         except AttributeError:
             try:
-                #exponential rule
                 n = float(other)
+                temp_unique_var = set(list(self.der.keys()) + list(other.der.keys()))
+
                 temp_val = (n)**self.val
-                temp_der = np.log(n) * (n ** self.val) * self.der
-                temp_der2 = np.log(n) * (n ** self.val) * ( self.der2 + np.log(n) * (self.der**2) )
-                return Variable(temp_val, temp_der, temp_der2)
+
+                for variable in temp_unique_var:
+                    temp_der[variable] = np.log(n) * (n ** self.val) * self.der.get(variable,0)
+                    temp_der2[variable] = np.log(n) * (n ** self.val) * ( self.der2.get(variable,0) + np.log(n) * (self.der.get(variable,0)**2) )
+                return Variable(self.name, temp_val, temp_der, temp_der2)
             except ValueError:
                 print("Invalid input type: ", other)
 
@@ -223,7 +268,14 @@ class Variable():
         This can also be used to make a negative number positive. -(-1) = 1
         """
         # todoteam confirm what derivative of negative value is
-        return Variable(-self.val, -self.der, -self.der2)
+        temp_der = {}
+        temp_der2 = {}
+
+        temp_val = -self.val
+        for variable in set(list(self.der.keys())):
+            temp_der[variable] = -self.der.get(variable,0)
+            temp_der2[variable] = -self.der2.get(variable,0)
+        return Variable(self.name, temp_val, temp_der, temp_der2)
 
     # Comparison Methods
     def __eq__(self, other):
