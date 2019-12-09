@@ -68,7 +68,11 @@ class AD():
         """
         Defines what is printed when class is printed
         """
-        return f"Formula(s) used: {self.formulas}"
+        return f"""
+        Formula(s) saved: {self.formulas},
+        Value(s) used: {self.values},
+        Derivatives found: {self.derivatives}
+        """
 
     def new_values(self):
         """
