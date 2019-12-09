@@ -1,6 +1,6 @@
 
-from elementary_functions import *
-from variable import Variable
+from bitterdispute.elementary_functions import *
+from bitterdispute.variable import Variable
 
 import numpy as np
 import matplotlib.pyplot as plt
