@@ -1,9 +1,10 @@
 
 import pytest
-import elementary_functions as elem
-from variable import Variable
 import numpy as np
-from optimization_newton_quasi_newton import *
+
+import bitterdispute.elementary_functions as elem
+from bitterdispute.variable import Variable
+from bitterdispute.optimization_newton_quasi_newton import *
 
 
 tolerance = 1e-4
