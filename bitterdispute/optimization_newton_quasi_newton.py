@@ -89,21 +89,6 @@ def help_Newton(f, x0, h=0.1, stop_stepsize=1e-6):
     else:
         return x
     
-def plot_opt(x_ls, f_=lambda x: (x-5)**2):
-    x_ls = np.array(x_ls)
-
-    y = f_(x_ls)
-
-    x_ = np.linspace(-2, 2, 250)
-    z_ = f_(x_)
-
-    plt.plot(x_ls, y, lw=3, alpha=0.5, label="Optimization")
-    plt.plot(x_, z_, lw=3, ls="--", alpha = 0.5, label="Real")
-    plt.scatter(x_ls[-1], y[-1], color="red", s=10,label="End")
-    #plt.xlim(-2-10, 2+10)
-    #plt.ylim(min(z_)-10, max(z_)+10)
-    plt.legend()
-    plt.show()
     
 def Quasi_Newton(f, x0, iter_max=100, error_max=1e-5):
     xn = x0
