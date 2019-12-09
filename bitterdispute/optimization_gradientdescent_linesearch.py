@@ -1,7 +1,7 @@
 from bitterdispute.variable import Variable
 import numpy as np
 
-def gradientDescent(f, init_val, lr=0.01, max_iters=100, tol=1e-4):
+def gradientDescent(f, init_val, lr=0.01, max_iters=10000, tol=1e-4):
     '''
     Minimize a function using gradient descent.
 
@@ -13,7 +13,7 @@ def gradientDescent(f, init_val, lr=0.01, max_iters=100, tol=1e-4):
         contains initial guess of roots
     lr: float (default = 0.01)
         The learning rate.
-    max_iters : integer, optional (default = 1000)
+    max_iters : integer, optional (default = 10000)
         The maximum number of iterations to run
     tol: float, optional (default = 1e-10)
         This tells us when to stop the algorithm
@@ -49,9 +49,9 @@ def gradientDescent(f, init_val, lr=0.01, max_iters=100, tol=1e-4):
                 init_stepsize = curr_x - prev_x # update the change in x
                 iters = iters + 1 #update the values in iteration counter
                 if init_stepsize.all() < tol_array.all():
-                    return iters, curr_x
+                    return curr_x
                     break
-            return ('reached maximum iterations', curr_x)
+            return ('reached maximum iterations')
         elif num_vars == 1:
             iters = 0 # iteration counter
             init_stepsize = float('inf') #define an inital difference between x and x0
@@ -68,10 +68,17 @@ def gradientDescent(f, init_val, lr=0.01, max_iters=100, tol=1e-4):
 
 def f(val):
     x1 = Variable('x',val)
-    # x2 = Variable('y',val[1])
     f = (x1-5) ** 2
     return f
 a = gradientDescent(f,init_val=[3])
+print(a)
+
+def f(val):
+    x1 = Variable('x',val[0])
+    x2 = Variable('y',val[1])
+    f = (x1-5) ** 2 + (x2-5)**2
+    return f
+a = gradientDescent(f,init_val=[3,1])
 print(a)
 
 
@@ -128,13 +135,12 @@ def backtrackingLineSearch(f, init_val, tau=0.01, c = 0.01, alpha = 10, max_iter
     t = -c * m
     while (fval1 - fval2) < (alpha * t):
         alpha = tau * alpha
-
         fval2 = f(init_val + alpha*p).val
         iters = iters+1
         # if (fval1 - fval2) >= (alpha * t).sum():
         #     return [iters, "hello", alpha]
         #     break
-    print (iters, alpha)
+    return (iters, alpha)
     #print("Total iterations", iters, "\n The alpha, step size, is", alpha)
 
 # def f(val):
@@ -143,11 +149,12 @@ def backtrackingLineSearch(f, init_val, tau=0.01, c = 0.01, alpha = 10, max_iter
 #     return f
 # a = backtrackingLineSearch(f, init_val=[7])
 # b = backtrackingLineSearch(f, init_val=[5])
-#
-# def f(val):
-#     x1 = Variable('x',val[0])
-#     x2 = Variable('y',val[1])
-#     f = (x1-5) ** 2 + (x2-5)**2
-#     return f
-# a = backtrackingLineSearch(f, init_val=[7,7])
-# b = backtrackingLineSearch(f, init_val=[5,5])
+
+def f(val):
+    x1 = Variable('x',val[0])
+    x2 = Variable('y',val[1])
+    f = (x1-5) ** 2 + (x2-5)**2
+    return f
+a = backtrackingLineSearch(f, init_val=[7,7])
+b = backtrackingLineSearch(f, init_val=[5,5])
+print (a)
