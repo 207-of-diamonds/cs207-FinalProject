@@ -1,4 +1,4 @@
-from bitterdispute.scalar import Scalar
+from bitterdispute.variable import Variable
 from bitterdispute.elementary_functions import *
 
 class AD():
@@ -34,8 +34,8 @@ class AD():
             print(f"Please enter a value for variable number {count+1}.")
             variable_key = alphabet[-variable_count+count]
             variable_value = float(input(f"{variable_key} = "))
-            globals()[variable_key] = Scalar(variable_value)
-            variable_dict[variable_key] = Scalar(variable_value)
+            globals()[variable_key] = Variable(variable_key, variable_value)
+            variable_dict[variable_key] = Variable(variable_key, variable_value)
             count += 1
         print("Thank you, we recorded these values:")
         for keys, values in variable_dict.items():

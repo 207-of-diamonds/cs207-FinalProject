@@ -45,7 +45,7 @@ class Variable():
             return Variable(self.name, temp_val, temp_der, temp_der2)
         except AttributeError:
             try:
-                temp_unique_var = set(list(self.der.keys()) + list(other.der.keys()))
+                temp_unique_var = set(list(self.der.keys()))
 
                 temp_val = self.val + float(other)
 
@@ -84,7 +84,7 @@ class Variable():
             return Variable(self.name, temp_val, temp_der, temp_der2)
         except AttributeError:
             try:
-                temp_unique_var = set(list(self.der.keys()) + list(other.der.keys()))
+                temp_unique_var = set(list(self.der.keys()))
 
                 temp_val = self.val - float(other)
 
@@ -123,7 +123,7 @@ class Variable():
             return Variable(self.name, temp_val, temp_der, temp_der2)
         except AttributeError:
             try:
-                temp_unique_var = set(list(self.der.keys()) + list(other.der.keys()))
+                temp_unique_var = set(list(self.der.keys()))
 
                 temp_val = self.val * float(other)
 
@@ -163,7 +163,7 @@ class Variable():
             return Variable(self.name, temp_val, temp_der, temp_der2)
         except AttributeError:
             try:
-                temp_unique_var = set(list(self.der.keys()) + list(other.der.keys()))
+                temp_unique_var = set(list(self.der.keys()))
 
                 temp_val = self.val / float(other)
 
@@ -209,7 +209,7 @@ class Variable():
         except AttributeError:
             try:
                 n = float(other)
-                temp_unique_var = set(list(self.der.keys()) + list(other.der.keys()))
+                temp_unique_var = set(list(self.der.keys()))
 
                 temp_val = self.val**(n)
 
@@ -249,7 +249,7 @@ class Variable():
         except AttributeError:
             try:
                 n = float(other)
-                temp_unique_var = set(list(self.der.keys()) + list(other.der.keys()))
+                temp_unique_var = set(list(self.der.keys()))
 
                 temp_val = (n)**self.val
 
