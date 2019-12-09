@@ -133,6 +133,7 @@ def test_pow_types():
     with pytest.raises(TypeError):
         Variable('x', "hi") / 5
     assert Variable('x', 5) ** "hi" is None
+    assert "hi" ** Variable('x', 5) is None
         
 def test_eq_results():
     x1 = Variable('x', 1)
