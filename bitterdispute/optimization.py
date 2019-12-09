@@ -1,2 +1,0 @@
-from optimization_gradientdescent_linesearch import *
-from optimization_newton_quasi_newton import *

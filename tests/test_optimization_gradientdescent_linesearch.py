@@ -2,7 +2,7 @@ import sys
 sys.path.append('..')
 import pytest
 import bitterdispute.elementary_functions as elem
-import bitterdispute.variable as Variable
+from bitterdispute.variable import Variable
 import bitterdispute.optimization_gradientdescent_linesearch as opt
 import numpy as np
 
@@ -23,7 +23,7 @@ def test_GD_singleVariable():
         f = (x1-5) ** 2
         return f
     a = opt.gradientDescent(f,init_val=[3])
-    assert np.isclose(a[1], 5, atol=1e-4)
+    assert np.isclose(a[1], 5, atol=1e-2)
 
 #multi variable
 def test_GD_multiVariable():
@@ -47,7 +47,7 @@ def test_bLS_singleVariable():
         return f
     a = opt.backtrackingLineSearch(f, init_val=[6])
     b = opt.backtrackingLineSearch(f, init_val=[5])
-    assert a[1] < b[1]
+    assert a[1] > b[1]
 # multivariable
 def test_bLS_multiVariable():
     def f(val):
@@ -57,7 +57,7 @@ def test_bLS_multiVariable():
         return f
     a = opt.backtrackingLineSearch(f, init_val=[6,6])
     b = opt.backtrackingLineSearch(f, init_val=[5,5])
-    assert a[1] < b[1]
+    assert a[1] > b[1]
 
 # def f(val):
 #     x1 = Variable('x',val[0])
