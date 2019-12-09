@@ -1,4 +1,4 @@
-#from bitterdispute.variable import Variable
+from bitterdispute.variable import Variable
 import numpy as np
 
 def gradientDescent(f, init_val, lr=0.01, max_iters=100, tol=1e-4):

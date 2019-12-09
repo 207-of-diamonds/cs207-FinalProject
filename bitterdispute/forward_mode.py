@@ -6,8 +6,6 @@ class AD():
     automatically differentiate a chosen formula and values. A user can save
     the output values of the formula and the derivative of the formula to a
     variable in Python using something like x = AD() for later reference.
-
-    todo update to handle vector of functions
     """
 
     def __init__(self):
