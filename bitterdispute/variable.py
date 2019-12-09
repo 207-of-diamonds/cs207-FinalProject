@@ -6,7 +6,6 @@ class Variable():
     derivative while enabling the automatic differentiation of any formula
     through custom defined operations. It is the core class enabling automatic
     differentiation through any formula.
-
     todo update this
     """
 
@@ -17,11 +16,11 @@ class Variable():
             self.der = derivative
         else:
             self.der = {name: derivative}
-        if type(derivative) == dict:
+        if type(second_derivative) == dict:
             self.der2 = second_derivative
         else:
             self.der2 = {name: second_derivative}
-        self.partials = [name]
+        #self.partials = [name] we tried a new method instead of saving partials
 
     def __str__(self):
         return f"{self.val}" # todo update
@@ -33,13 +32,15 @@ class Variable():
             temp_der: https://www.wolframalpha.com/input/?i=first+derivative+of+f%28x%29%2Bg%28x%29
             temp_der2: https://www.wolframalpha.com/input/?i=second+derivative+of+f%28x%29%2Bg%28x%29
         """
-        self.partials = set(list(self.der.keys()) + list(self.der.keys()))
+        #self.partials = set(list(self.der.keys()) + list(other.der.keys()))
         temp_der = {}
         temp_der2 = {}
         try:
+            temp_unique_var = set(list(self.der.keys()) + list(other.der.keys()))
+
             temp_val = self.val + other.val
 
-            for variable in self.partials:
+            for variable in temp_unique_var:
                 temp_der[variable] = self.der.get(variable, 0) + other.der.get(variable, 0)
                 temp_der2[variable] = self.der2.get(variable, 0) + other.der2.get(variable, 0)
 
@@ -48,10 +49,10 @@ class Variable():
             try:
                 temp_val = self.val + float(other)
 
-                for variable in self.partials:
+                for variable in self.der:
                     temp_der[variable] = self.der.get(variable, 0) + 0
                     temp_der2[variable] = self.der2.get(variable, 0) + 0
-                return Variable(temp_val, temp_der, temp_der2)
+                return Variable(self.name, temp_val, temp_der, temp_der2)
             except ValueError:
                 print("Invalid input type: ", other)
 
