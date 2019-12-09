@@ -1,6 +1,6 @@
 import pytest
-import elementary_functions as elem
-from variable import Variable
+import bitterdispute.elementary_functions as elem
+from bitterdispute.variable import Variable
 import numpy as np
 
 ## sin ======================
