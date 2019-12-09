@@ -1,4 +1,5 @@
 import numpy as np
+# todoteam should we be importing elementary_functions here?
 
 class Scalar():
     """The Scalar() class defines the base storage for an initial value and
@@ -9,11 +10,17 @@ class Scalar():
     todo update this
     """
 
-    def __init__(self, value, derivative=1, second_derivative=0, name="x"):
+    def __init__(self, value, derivative=np.ones(0), second_derivative=np.zeros(0), other_vars=2, name="x"):
         self.name = name # todoteam does this get confusing if you've saved 'x' to 'a'. Should we auto-handle this?
         self.val = value
-        self.der = derivative
-        self.der2 = second_derivative
+        if len(derivative) == 0:
+            self.der = np.ones(other_vars)
+        else:
+            self.der = np.array(derivative)
+        if len(second_derivative) == 0:
+            self.der2 = np.zeros(other_vars)
+        else:
+            self.der2 = np.array(second_derivative)
 
     def __str__(self):
         return f"{self.val}" # todo update

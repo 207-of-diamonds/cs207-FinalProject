@@ -58,7 +58,9 @@ def gradientDescent(f, init_val, lr=0.01, max_iters=1000, tol=1e-4):
 
 def backtrackingLineSearch(f, init_val, tau=0.1, c = 0.1, alpha = 1):
     """
-    backtracking line search algorithm based on the Armijo–Goldstein condition, which finds the step size that provides a reasonable amount of improvement in the objective function.
+    backtracking line search algorithm based on the Armijo–Goldstein condition,
+    which finds the step size that provides a reasonable amount of improvement
+    in the objective function.
 
     INPUTS
     =======
@@ -76,7 +78,8 @@ def backtrackingLineSearch(f, init_val, tau=0.1, c = 0.1, alpha = 1):
     RETURNS
     ========
     alpha:
-        the step size which provides a reasonable amount of improvement in the objective function
+        the step size which provides a reasonable amount of improvement
+        in the objective function
 
     EXAMPLES
     =========
@@ -95,7 +98,8 @@ def backtrackingLineSearch(f, init_val, tau=0.1, c = 0.1, alpha = 1):
     "Total iterations 0
     The alpha, step size, is 1"
 
-    # when the initial guess is set to be closer to the minimum, the reasonable step size is getting smaller.
+    # when the initial guess is set to be closer to the minimum,
+    the reasonable step size is getting smaller.
     """
     iters = 0
     fval1 = f(init_val).val # find the value at the initial guess
