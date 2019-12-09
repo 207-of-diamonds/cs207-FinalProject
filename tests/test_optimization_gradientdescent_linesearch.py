@@ -3,7 +3,7 @@ sys.path.append('..')
 import pytest
 import bitterdispute.elementary_functions as elem
 import bitterdispute.variable as Variable
-import bitterdispute.optimization_GD_LS_new as opt
+import bitterdispute.optimization_gradientdescent_linesearch as opt
 import numpy as np
 
 ## gradient descent
