@@ -7,7 +7,7 @@ README = (HERE / "README.md").read_text()
 
 setup(
     name='bitterdispute',
-    version='0.1',
+    version='0.8',
     author='Harvard CS207 Team 31',
     author_email='wseaton@g.harvard.edu',
     description='A step-by-step Automatic Differentiation package',
