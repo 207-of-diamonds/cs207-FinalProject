@@ -130,7 +130,7 @@ def backtrackingLineSearch(f, init_val, tau=0.01, c = 0.01, alpha = 10, max_iter
         p=-1
     if (fval1 - fval2) > 0:
         p=1
-    gradient = np.array(list(f(init_val).der.values())) #find the gradient
+    gradient = np.array([f(init_val).der.get(key) for key in sorted (f(init_val).der)]) #find the gradient
     m=(p*gradient).sum()
     t = -c * m
     while (fval1 - fval2) < (alpha * t):
