@@ -12,7 +12,10 @@ class AD():
         self.guide()
 
     def guide(self):
-        """todo
+        """Method that allows a user to run the guide at any time.
+        It will start the walkthrough from the beginning and allow
+        a user to enter both new values and new formulas for an existing
+        object instance.
         """
         print("""
         Welcome to Bitter Dispute! America's favorite automatically
@@ -82,8 +85,9 @@ class AD():
 
     def new_values(self):
         """
-        Allows you to pass in new values with saved formulas
-        todo
+        Helper method that allows a user to enter new values for an existing
+        object and automatically runs those values through the saved
+        formulas.
         """
         variable_dict = {}
         for variable_key in self.inputs.keys():
@@ -112,8 +116,9 @@ class AD():
 
     def new_formulas(self):
         """
-        Allows you to pass in new formulas for saved values
-        todo
+        Helper method that allows a user to enter new formulas for an existing
+        object and automatically runs the saved values through the new
+        formulas.
         """
         for variable_key, variable_value in self.inputs.items():
             globals()[variable_key] = Variable(variable_key, variable_value)

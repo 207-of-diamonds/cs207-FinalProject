@@ -1,16 +1,14 @@
 import numpy as np
-# todoteam should we be importing elementary_functions here?
 
 class Variable():
-    """The Variable() class defines the base storage for an initial value and
-    derivative while enabling the automatic differentiation of any formula
-    through custom defined operations. It is the core class enabling automatic
-    differentiation through any formula.
-    todo update this
+    """The Variable() class defines the base storage for an initial value,
+    derivative and second derivatives while enabling the automatic
+    differentiation of any formula through custom defined operations.
+    It is the core class enabling automatic differentiation through any formula.
     """
 
     def __init__(self, name: str, value, derivative=1, second_derivative=0):
-        self.name = name # todoteam does this get confusing if you've saved 'x' to 'a'. Can we auto-handle this?
+        self.name = name
         self.val = value
         if type(derivative) == dict:
             self.der = derivative
@@ -22,14 +20,11 @@ class Variable():
             self.der2 = {name: second_derivative}
 
     def __str__(self):
-        return f"{self.val}" # todo update
+        return f"{self.name} = {self.val}"
 
     def __add__(self, other):
         """
         This changes what happens when you use '+'
-        Reference:
-            temp_der: https://www.wolframalpha.com/input/?i=first+derivative+of+f%28x%29%2Bg%28x%29
-            temp_der2: https://www.wolframalpha.com/input/?i=second+derivative+of+f%28x%29%2Bg%28x%29
         """
         temp_der = {}
         temp_der2 = {}
@@ -66,9 +61,6 @@ class Variable():
     def __sub__(self, other):
         """
         This changes what happens when you use '-'
-        Reference:
-            temp_der: https://www.wolframalpha.com/input/?i=first+derivative+of+f%28x%29-g%28x%29
-            temp_der2: https://www.wolframalpha.com/input/?i=second+derivative+of+f%28x%29-g%28x%29
         """
         temp_der = {}
         temp_der2 = {}
@@ -105,9 +97,6 @@ class Variable():
     def __mul__(self, other):
         """
         This changes what happens when you use '*'
-        Reference:
-            temp_der: https://www.wolframalpha.com/input/?i=first+derivative+of+f%28x%29*g%28x%29
-            temp_der2: https://www.wolframalpha.com/input/?i=second+derivative+of+f%28x%29*g%28x%29
         """
         temp_der = {}
         temp_der2 = {}
@@ -145,9 +134,6 @@ class Variable():
     def __truediv__(self, other):
         """
         This changes what happens when you use '/'
-        Reference:
-            temp_der: https://www.wolframalpha.com/input/?i=first+derivative+of+f%28x%29%2Fg%28x%29
-            temp_der2: https://www.wolframalpha.com/input/?i=second+derivative+of+f%28x%29%2Fg%28x%29
         """
         temp_der = {}
         temp_der2 = {}
@@ -184,13 +170,6 @@ class Variable():
     def __pow__(self, other):
         """
         This changes what happens when you use '**'
-        Reference:
-        try:
-            temp_der: https://www.wolframalpha.com/input/?i=first+derivative+of+f%28x%29**g%28x%29
-            temp_der2: https://www.wolframalpha.com/input/?i=second+derivative+of+f%28x%29**g%28x%29
-        except AttributeError: (Same if you use 3 instead of y)
-            temp_der: https://www.wolframalpha.com/input/?i=first+derivative+of+f%28x%29**y
-            temp_der2: https://www.wolframalpha.com/input/?i=second+derivative+of+f%28x%29**y
         """
         temp_der = {}
         temp_der2 = {}
@@ -224,13 +203,6 @@ class Variable():
         """
         Called if left parameter does not support __pow__
         and parameters are of different types
-        Reference:
-        try:
-            temp_der: https://www.wolframalpha.com/input/?i=first+derivative+of+g%28x%29**f%28x%29
-            temp_der2:https://www.wolframalpha.com/input/?i=second+derivative+of+g%28x%29**f%28x%29
-        except:
-            temp_der: https://www.wolframalpha.com/input/?i=first+derivative+of+y**f%28x%29
-            temp_der2:https://www.wolframalpha.com/input/?i=second+derivative+of+y**f%28x%29
         """
         temp_der = {}
         temp_der2 = {}
@@ -267,7 +239,6 @@ class Variable():
         instead of as an operation.
         This can also be used to make a negative number positive. -(-1) = 1
         """
-        # todoteam confirm what derivative of negative value is
         temp_der = {}
         temp_der2 = {}
 
