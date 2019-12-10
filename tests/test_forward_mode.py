@@ -6,7 +6,7 @@ to confirm proper errors and behavior during our Bitter Dispute.
 import pytest
 from bitterdispute.forward_mode import AD
 
-def test_standard_formula1(mocker, capsys):
+def test_standard_formula1(mocker):
     """
     Test for handling standard scalar operations with two variables
     Test for print statement functioning
@@ -92,26 +92,47 @@ def test_positive(mocker):
     assert x.derivatives == [{'x': -1, 'y': 3.0}]
     assert x.formulas == ['-x+3*(y)']
 
-# def test_print(mocker): todo if time
-#     """
-#     """
-#     mocker.patch('builtins.input', side_effect=[2, 3, 5, '-x+3*(y)'])
-#     x = AD()
-#     print(x)
-#     assert mock_stdout.getvalue() == """
-#         Welcome to Bitter Dispute! America's favorite automatically
-#             differentiating gameshow. Let's get started.
-#
-#         Great, we'll use 2 variables.
-#         Please enter a value for variable number 1.
-#         Please enter a value for variable number 2.
-#         Thank you, we recorded these values:
-#         y = 3.0
-#         x = 5.0
-#         Lastly, what formulas would you like to derive? Please use the variables just listed.        You may enter as many formulas as you'd like as a list!
-#         The final derivative of formula ['-x+3*(y)'] with your chosen values is [{'x': -1, 'y': 3.0}]. Thanks for playing!
-#
-#             Formula(s) saved: ['-x+3*(y)'],
-#             Value(s) used: [4.0],
-#             Derivatives found: [{'x': -1, 'y': 3.0}]
-#     """
+def test_new_values(mocker):
+    """todo
+    """
+    mocker.patch('builtins.input', side_effect=[2, 2, 8, 'sin(x)*7+4*tanh(y)'])
+    x = AD()
+    mocker.patch('builtins.input', side_effect=[5, 8])
+    x.new_values()
+    assert x.inputs == {'y': 5.0, 'x': 8.0}
+    assert x.outputs == [10.925144543414053]
+    assert x.derivatives == [{'x': -1.0185002366602949, 'y': 0.0007263329237752267}]
+    assert x.formulas == ['sin(x)*7+4*tanh(y)']
+
+def test_new_formulas(mocker):
+    """todo
+    """
+    mocker.patch('builtins.input', side_effect=[2, 2, 8, 'sin(x)*7+4*tanh(y)'])
+    x = AD()
+    mocker.patch('builtins.input', side_effect=['cos(x)*y+13-x**2'])
+    x.new_formulas()
+    assert x.inputs == {'y': 2.0, 'x': 8.0}
+    assert [ round(elem, 10) for elem in x.outputs ] == [ round(elem, 10) for elem in [-51.291000067617226] ]
+    assert x.derivatives == [{'x': 13.851015452727346, 'y': -0.14550003380861354}]
+    assert x.formulas == ['cos(x)*y+13-x**2']
+
+def test_guide(mocker):
+    """
+    todo
+    """
+    mocker.patch('builtins.input', side_effect=[2, 3, 5, '4*x+7*y'])
+    x = AD()
+    mocker.patch('builtins.input', side_effect=[2, 5, 8, 'sin(x)*7+4*tanh(y)'])
+    x.guide()
+    assert x.inputs == {'y': 5.0, 'x': 8.0}
+    assert [ round(elem, 10) for elem in x.outputs ] == [ round(elem, 10) for elem in [10.925144543414053] ]
+    assert x.derivatives == [{'x': -1.0185002366602949, 'y': 0.0007263329237752267}]
+    assert x.formulas == ['sin(x)*7+4*tanh(y)']
+
+def test_print(mocker):
+    """
+    """
+    mocker.patch('builtins.input', side_effect=[2, 3, 5, '-x+3*(y)'])
+    x = AD()
+    print(x)
+    assert x.__str__() == """Formula(s) saved: ['-x+3*(y)'],Value(s) used: [4.0],Derivatives found: [{'x': -1, 'y': 3.0}]"""
