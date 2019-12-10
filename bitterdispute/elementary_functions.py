@@ -88,7 +88,7 @@ def exp(x):
     a Variable() object or a constant value. Includes calculation of first and second derivative.
     """
     try:
-        new_x = Variable(name=x.name, value = np.exp(x.val), derivative = x.der)
+        new_x = Variable(name=x.name, value = np.exp(x.val), derivative = x.der, second_derivative = x.der2)
         for key in x.der:
             new_x.der[key] = x.der.get(key)*new_x.val
         for key in x.der2:
