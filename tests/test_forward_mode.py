@@ -143,15 +143,3 @@ def test_guide(mocker):
     assert [ round(elem, 5) for elem in x.outputs ] == [ round(elem, 5) for elem in [10.925144543414053] ]
     assert x.derivatives == [{'x': -1.0185, 'y': 0.00073}]
     assert x.formulas == ['sin(x)*7+4*tanh(y)']
-
-def test_print(mocker):
-    """
-    """
-    mocker.patch('builtins.input', side_effect=[2, 3, 5, '-x+3*(y)'])
-    x = AD()
-    print(x)
-    assert x.__str__() == """
-        Formula(s) saved: ['-x+3*(y)'],
-        Value(s) used: {'y': 3.0, 'x': 5.0},
-        Derivatives found: [{'x': -1, 'y': 3.0}]
-        """
