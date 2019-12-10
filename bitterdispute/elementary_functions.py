@@ -55,7 +55,7 @@ def sqrt(x):
         #Ensure input domain valid
         if x.val < 0:
             raise ValueError('Cannot evaluate the square root of a negative number')
-        x_new = Variable(name = x.name, value = np.sqrt(x.val), derivative = x.der, second_derivative=x.der2)
+        new_x = Variable(name = x.name, value = np.sqrt(x.val), derivative = x.der, second_derivative=x.der2)
         for key in x.der:
             new_x.der[key] = x.der.get(key)*(1/(2*np.sqrt(x.val)))
         for key in x.der2:
