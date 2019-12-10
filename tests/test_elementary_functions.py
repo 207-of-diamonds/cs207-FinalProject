@@ -250,7 +250,7 @@ def test_tanh_result_var():
     x = Variable('x',val)
     obj_generate = elem.tanh(x)
     obj_wanted = Variable(name='x', value=np.tanh(val), 
-                          derivative = (1/np.cosh(val))**2, second_derivative=-2*sinh(val)/(cosh(val))**3)
+                          derivative = (1/np.cosh(val))**2, second_derivative=-2*np.sinh(val)/(np.cosh(val))**3)
     assert np.isclose(obj_generate.val, obj_wanted.val)
     ## ensure same element
     assert list(obj_generate.der)==list(obj_wanted.der)  
