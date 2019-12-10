@@ -1,0 +1,29 @@
+Metadata-Version: 2.1
+Name: bitterdispute
+Version: 0.1
+Summary: A step-by-step Automatic Differentiation package
+Home-page: https://github.com/207-of-diamonds/cs207-FinalProject
+Author: Harvard CS207 Team 31
+Author-email: wseaton@g.harvard.edu
+License: MIT
+Description: # cs207-FinalProject
+        Final Project for CS207: Automatic Differentiation
+        
+        # Group 31
+        # Members
+        - Selina Wu
+        - Stephanie Zhang
+        - Will Seaton
+        - Caroline Stedman
+        
+        
+        [![Build Status](https://travis-ci.org/207-of-diamonds/cs207-FinalProject.svg?branch=master)](https://travis-ci.org/207-of-diamonds/cs207-FinalProject)
+        
+        [![codecov](https://codecov.io/gh/207-of-diamonds/cs207-FinalProject/branch/master/graph/badge.svg)](https://codecov.io/gh/207-of-diamonds/cs207-FinalProject)
+        
+        
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Description-Content-Type: text/markdown
