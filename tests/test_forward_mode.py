@@ -46,8 +46,11 @@ def test_elementary_functions1(mocker):
     """
     mocker.patch('builtins.input', side_effect=[2, 5, 8, 'sin(x)*7+4*tanh(y)'])
     x = AD()
-    assert [round(val, 10) for val in x.outputs] == [round(10.925144543414053, 10)]
-    assert x.derivatives == [{'y': 0.0007263329237752267, 'x': -1.0185002366602949}]
+    for li in x.derivatives:
+        for key, value in li.items():
+            li[key] = round(value, 5)
+    assert [round(val, 5) for val in x.outputs] == [round(10.925144543414053, 5)]
+    assert x.derivatives == [{'y': 0.00073, 'x': -1.0185}]
     assert x.formulas == ['sin(x)*7+4*tanh(y)']
 
 def test_elementary_functions2(mocker):
@@ -61,8 +64,11 @@ def test_elementary_functions2(mocker):
     """
     mocker.patch('builtins.input', side_effect=[3, 2, 7, 1, 'sin(cos(tan(x)*y)*z)'])
     x = AD()
-    assert [round(val, 10) for val in x.outputs] == [round(-0.18607529153476626, 10)]
-    assert x.derivatives == [{'y': 3.046986001124803, 'z': -0.09194869423196683, 'x': 46.91292723071239}]
+    for li in x.derivatives:
+        for key, value in li.items():
+            li[key] = round(value, 5)
+    assert [round(val, 5) for val in x.outputs] == [round(-0.18607529153476626, 5)]
+    assert x.derivatives == [{'x': 46.91293, 'y': 3.04699, 'z': -0.09195}]
     assert x.formulas == ['sin(cos(tan(x)*y)*z)']
 
 def test_power(mocker):
@@ -99,9 +105,12 @@ def test_new_values(mocker):
     x = AD()
     mocker.patch('builtins.input', side_effect=[5, 8])
     x.new_values()
+    for li in x.derivatives:
+        for key, value in li.items():
+            li[key] = round(value, 5)
     assert x.inputs == {'y': 5.0, 'x': 8.0}
-    assert x.outputs == [10.925144543414053]
-    assert x.derivatives == [{'x': -1.0185002366602949, 'y': 0.0007263329237752267}]
+    assert [round(val, 5) for val in x.outputs] == [round(10.925144543414053, 5)]
+    assert x.derivatives == [{'x': -1.0185, 'y': 0.00073}]
     assert x.formulas == ['sin(x)*7+4*tanh(y)']
 
 def test_new_formulas(mocker):
@@ -111,9 +120,12 @@ def test_new_formulas(mocker):
     x = AD()
     mocker.patch('builtins.input', side_effect=['cos(x)*y+13-x**2'])
     x.new_formulas()
+    for li in x.derivatives:
+        for key, value in li.items():
+            li[key] = round(value, 5)
     assert x.inputs == {'y': 2.0, 'x': 8.0}
-    assert [ round(elem, 10) for elem in x.outputs ] == [ round(elem, 10) for elem in [-51.291000067617226] ]
-    assert x.derivatives == [{'x': 13.851015452727346, 'y': -0.14550003380861354}]
+    assert [ round(elem, 5) for elem in x.outputs ] == [ round(elem, 5) for elem in [-51.291000067617226] ]
+    assert x.derivatives == [{'x': 13.85102, 'y': -0.1455}]
     assert x.formulas == ['cos(x)*y+13-x**2']
 
 def test_guide(mocker):
@@ -124,9 +136,12 @@ def test_guide(mocker):
     x = AD()
     mocker.patch('builtins.input', side_effect=[2, 5, 8, 'sin(x)*7+4*tanh(y)'])
     x.guide()
+    for li in x.derivatives:
+        for key, value in li.items():
+            li[key] = round(value, 5)
     assert x.inputs == {'y': 5.0, 'x': 8.0}
-    assert [ round(elem, 10) for elem in x.outputs ] == [ round(elem, 10) for elem in [10.925144543414053] ]
-    assert x.derivatives == [{'x': -1.0185002366602949, 'y': 0.0007263329237752267}]
+    assert [ round(elem, 5) for elem in x.outputs ] == [ round(elem, 5) for elem in [10.925144543414053] ]
+    assert x.derivatives == [{'x': -1.0185, 'y': 0.00073}]
     assert x.formulas == ['sin(x)*7+4*tanh(y)']
 
 def test_print(mocker):
@@ -135,4 +150,8 @@ def test_print(mocker):
     mocker.patch('builtins.input', side_effect=[2, 3, 5, '-x+3*(y)'])
     x = AD()
     print(x)
-    assert x.__str__() == """Formula(s) saved: ['-x+3*(y)'],Value(s) used: [4.0],Derivatives found: [{'x': -1, 'y': 3.0}]"""
+    assert x.__str__() == """
+        Formula(s) saved: ['-x+3*(y)'],
+        Value(s) used: {'y': 3.0, 'x': 5.0},
+        Derivatives found: [{'x': -1, 'y': 3.0}]
+        """
