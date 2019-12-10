@@ -1,12 +1,11 @@
 
-
 from bitterdispute.elementary_functions import *
 from bitterdispute.variable import Variable
 
 import numpy as np
 
 
-def hessian(f, x, dx=1e-5):
+def hessian(f, x, dx=1e-6):
     '''
     Creates a function that computes the hessian matrix of a scalar field.
     '''
@@ -35,17 +34,19 @@ def hessian(f, x, dx=1e-5):
                 hf[i, j] = (f(xur).val - f(xlr).val - f(xul).val + f(xll).val) / (4.*dx*dx)
         return hf
 
-def help_Quasi_Newton(f, x0, B, h=0.1):
+def help_Quasi_Newton(f, x0, B, h=0.09):
     ## DFP
     x = np.array(x0).ravel()
     #H = hessian(f, x0)
     #B = np.linalg.inv(H)
 
     # Updates x
-    dfx = np.array(list(f(x0).der.values())) # df(x0) #
+    dfx = np.array([f(x0).der.get(key) for key in sorted(f(x0).der)]) # df(x0) #list(f(x0).der.values())
+
     if np.isscalar(x0):
         dfx = dfx[0]
     dx = - h * np.dot(B, dfx)
+
     xn = x + dx
 
     # Updates B
@@ -71,7 +72,7 @@ def help_Newton(f, x0, h=0.1):
     B = np.linalg.pinv(H)
 
     # Updates x
-    dfx = np.array(list(f(x0).der.values())) # df(x0) #
+    dfx = np.array([f(x0).der.get(key) for key in sorted(f(x0).der)]) # df(x0) #list(f(x0).der.values())
     if np.isscalar(x0):
         dfx = dfx[0]
 
@@ -85,7 +86,7 @@ def help_Newton(f, x0, h=0.1):
         return xn
 
 
-def Quasi_Newton(f, x0, iter_max=100, error_max=1e-5):
+def Quasi_Newton(f, x0, iter_max=100, error_max=1e-10):
     xn = x0
     x_ls = [xn]
     H = hessian(f, x0)
@@ -95,7 +96,7 @@ def Quasi_Newton(f, x0, iter_max=100, error_max=1e-5):
         x_new, B = help_Quasi_Newton(f=f, x0=xn, B=B)
 
         if np.mean(abs(x_new-xn))<error_max:
-            print("Reach error requirement. At iteration {}".format(i))
+            print("Reach requirement. At iteration {}".format(i))
             return xn, x_ls
 
         x_ls.append(xn)
@@ -106,14 +107,14 @@ def Quasi_Newton(f, x0, iter_max=100, error_max=1e-5):
 
     return xn, x_ls
 
-def Newton(f, x0, iter_max=100, error_max=1e-5):
+def Newton(f, x0, iter_max=100, error_max=1e-6):
     xn = x0
     x_ls = [xn]
     for i in range(iter_max):
         x_new = help_Newton(f=f, x0=xn)
 
         if np.mean(abs(x_new-xn))<error_max:
-            print("Reach error requirement. At iteration {}".format(i))
+            print("Reach requirement. At iteration {}".format(i))
             return xn, x_ls
 
         x_ls.append(xn)
