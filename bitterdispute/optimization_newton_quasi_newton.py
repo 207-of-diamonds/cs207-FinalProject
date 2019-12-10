@@ -25,7 +25,7 @@ def hessian(f, x, dx=1e-6):
 	=========
 	>>> def f(val):
 	...     x1 = Scalar(val)
-    ...     f = (x1-5) ** 2
+        ...     f = (x1-5) ** 2
 	...     return f
 	>>> a = hessian(f, 1)
 	>>> print(a)
@@ -77,7 +77,7 @@ def help_Quasi_Newton(f, x0, B, h=0.09):
 	=========
 	>>> def f(val):
 	...     x1 = Scalar(val)
-    ...     f = (x1-5) ** 2
+        ...     f = (x1-5) ** 2
 	...     return f
     >>> H = hessian(f, x0)
     >>> B = np.linalg.inv(H)
@@ -134,7 +134,7 @@ def help_Newton(f, x0, h=0.1):
 	=========
 	>>> def f(val):
 	...     x1 = Scalar(val)
-    ...     f = (x1-5) ** 2
+        ...     f = (x1-5) ** 2
 	...     return f
 	>>> xn = help_Newton(f, x0)
 	>>> xn
@@ -182,7 +182,7 @@ def Quasi_Newton(f, x0, iter_max=100, error_max=1e-10):
 	=========
 	>>> def f(val):
 	...     x1 = Scalar(val)
-    ...     f = (x1-5) ** 2
+        ...     f = (x1-5) ** 2
 	...     return f
 	>>> xn, x_ls = Quasi_Newton(f, x0)
 	Reach max iteration!
@@ -231,7 +231,7 @@ def Newton(f, x0, iter_max=100, error_max=1e-6):
 	=========
 	>>> def f(val):
 	...     x1 = Scalar(val)
-    ...     f = (x1-5) ** 2
+        ...     f = (x1-5) ** 2
 	...     return f
 	>>> xn = Newton(f, x0)
 	>>> xn
