@@ -1,9 +1,7 @@
 
 from bitterdispute.elementary_functions import *
 from bitterdispute.variable import Variable
-
 import numpy as np
-import matplotlib.pyplot as plt
 
 
 def hessian(f, x, dx=1e-5):
