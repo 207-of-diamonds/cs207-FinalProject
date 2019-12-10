@@ -4,8 +4,10 @@ setup.py
 bitterdispute/__init__.py
 bitterdispute/elementary_functions.py
 bitterdispute/forward_mode.py
-bitterdispute/scalar.py
-bitterdispute/setup.py
+bitterdispute/optimization_gradientdescent_linesearch.py
+bitterdispute/optimization_newton_quasi_newton.py
+bitterdispute/optimizations.py
+bitterdispute/variable.py
 bitterdispute.egg-info/PKG-INFO
 bitterdispute.egg-info/SOURCES.txt
 bitterdispute.egg-info/dependency_links.txt
