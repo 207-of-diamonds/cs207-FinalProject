@@ -60,7 +60,7 @@ def sqrt(x):
             new_x.der[key] = x.der.get(key)*(1/(2*np.sqrt(x.val)))
         for key in x.der2:
             new_x.der2[key] = (2*x.val*x.der2.get(key) - x.der.get(key)**2)/(4*x.val**(3/2))
-        return x_new
+        return new_x
     except AttributeError:
         return np.sqrt(x)
 
