@@ -11,7 +11,7 @@ def test_start_results():
 
 def test_str():
     x = Variable('x', 5)
-    assert x.__str__() == '5'
+    assert x.__str__() == 'x = 5'
 
 def test_add_results():
     x1 = Variable('x', 1)
@@ -75,7 +75,7 @@ def test_mul_results():
     assert x6.der['y'] == 5
     assert x6.der2['x'] == 0
     assert x6.der2['y'] == 0
-    
+
 def test_div_results():
     x1 = Variable('x', 1)
     x2 = x1/4
@@ -97,7 +97,7 @@ def test_div_results():
     assert x6.der['y'] == -1
     assert x6.der2['x'] == 0
     assert x6.der2['y'] == 2
-    
+
 def test_pow_results():
     x1 = Variable('x', 2)
     x2 = x1**2
@@ -108,7 +108,7 @@ def test_pow_results():
     assert x3.val == 16
     assert np.isclose(x3.der['x'], np.log(4)*4**2)
     assert np.isclose(x3.der2['x'], 4**2*(np.log(4)**2))
-    
+
 def test_add_types():
     with pytest.raises(TypeError):
         Variable('x', "hi") + 5
@@ -118,23 +118,23 @@ def test_sub_types():
     with pytest.raises(TypeError):
         Variable('x', "hi") - 5
     assert Variable('x', 5) - "hi" is None
-        
+
 def test_mul_types():
     with pytest.raises(TypeError):
         Variable('x', "hi") * 5
     assert Variable('x', 5) * "hi" is None
-        
+
 def test_div_types():
     with pytest.raises(TypeError):
         Variable('x', "hi") / 5
     assert Variable('x', 5) / "hi" is None
-        
+
 def test_pow_types():
     with pytest.raises(TypeError):
         Variable('x', "hi") / 5
     assert Variable('x', 5) ** "hi" is None
     assert "hi" ** Variable('x', 5) is None
-        
+
 def test_eq_results():
     x1 = Variable('x', 1)
     x2 = Variable('y', 1)
@@ -144,7 +144,7 @@ def test_eq_results():
     assert(not (x1 != x2))
     assert(not (x1 != x3))
 
-    
+
 def test_lt_results():
     x1 = Variable('x', 1)
     x2 = Variable('y', 2)
@@ -153,7 +153,7 @@ def test_lt_results():
     assert(x1 < x3)
     assert(not (x1 > x2))
     assert(not (x1 > x3))
-    
+
 def test_le_results():
     x1 = Variable('x', 2)
     x2 = Variable('y', 2)
@@ -162,7 +162,7 @@ def test_le_results():
     assert(x1 <= x3)
     assert(not (x1 < x2))
     assert(not (x1 < x3))
-    
+
 def test_gt_results():
     x1 = Variable('x', 4)
     x2 = Variable('y', 2)
@@ -171,7 +171,7 @@ def test_gt_results():
     assert(x1 > x3)
     assert(not (x1 < x2))
     assert(not (x1 < x3))
-    
+
 def test_ge_results():
     x1 = Variable('x', 4)
     x2 = Variable('y', 4)
