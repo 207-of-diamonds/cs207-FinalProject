@@ -8,6 +8,28 @@ import numpy as np
 def hessian(f, x, dx=1e-6):
     '''
     Creates a function that computes the hessian matrix of a scalar field.
+    
+    Parameters
+    ----------
+    f : callable function object
+        A differentiable real-valued function
+    x:  list of float contains value of variables
+    dx: float, step length.
+   
+    Returns
+    -------
+    Hessian:
+        Hessian matrix for the input function f
+        
+    EXAMPLES
+	=========
+	>>> def f(val):
+	...     x1 = Scalar(val)
+    ...     f = (x1-5) ** 2
+	...     return f
+	>>> a = hessian(f, 1)
+	>>> print(a)
+	"[[0.5000444502911705]]"
     '''
     if np.isscalar(x):
 #         H = f(x).der2
@@ -35,6 +57,34 @@ def hessian(f, x, dx=1e-6):
         return hf
 
 def help_Quasi_Newton(f, x0, B, h=0.09):
+    '''
+    help function to calcuate quasi newton 
+    
+    Parameters
+    ----------
+    f : callable function object
+        A differentiable real-valued function
+    x0: list of float contains initial guess of roots
+    B : the inverse of hessian matrix
+    h : float (default = 0.09) The learning rate.
+        
+    Returns
+    -------
+    xn: updated roots guess
+    B : approximate of matrix B
+    
+    EXAMPLES
+	=========
+	>>> def f(val):
+	...     x1 = Scalar(val)
+    ...     f = (x1-5) ** 2
+	...     return f
+    >>> H = hessian(f, x0)
+    >>> B = np.linalg.inv(H)
+	>>> xn, B = help_Quasi_Newton(f, x0, B)
+	>>> xn, B
+	(2.599857771712432, array([[0.5]]))
+    '''
     ## DFP
     x = np.array(x0).ravel()
     #H = hessian(f, x0)
@@ -66,7 +116,30 @@ def help_Quasi_Newton(f, x0, B, h=0.09):
 
 
 def help_Newton(f, x0, h=0.1):
-
+    '''
+    help function to calcuate newton 
+    
+    Parameters
+    ----------
+    f : callable function object
+        A differentiable real-valued function
+    x0: list of float contains initial guess of roots
+    h : float (default = 0.09) The learning rate.
+        
+    Returns
+    -------
+    xn: updated roots guess
+    
+    EXAMPLES
+	=========
+	>>> def f(val):
+	...     x1 = Scalar(val)
+    ...     f = (x1-5) ** 2
+	...     return f
+	>>> xn = help_Newton(f, x0)
+	>>> xn
+	2.599857771712432
+    '''
     x = np.array(x0).ravel()
     H = hessian(f, x0)#f(x0).der2
     B = np.linalg.pinv(H)
@@ -87,6 +160,34 @@ def help_Newton(f, x0, h=0.1):
 
 
 def Quasi_Newton(f, x0, iter_max=100, error_max=1e-10):
+    '''
+    function to calcuate quasi newton in DFP
+    
+    Parameters
+    ----------
+    f        : callable function object
+               A differentiable real-valued function
+    x0       : list of float contains initial guess of roots
+    iter_max : integer, optional (default = 100)
+               The maximum number of iterations to run
+    error_max: float, optional (default = 1e-10)
+               This tells us when to stop the algorithm
+        
+    Returns
+    -------
+    xn   : optimal roots guess
+    x_ls : historical guss of xn
+    
+    EXAMPLES
+	=========
+	>>> def f(val):
+	...     x1 = Scalar(val)
+    ...     f = (x1-5) ** 2
+	...     return f
+	>>> xn, x_ls = Quasi_Newton(f, x0)
+	Reach max iteration!
+    Result: 4.9999291654054305 ; f(x) =  5.017539787821024e-09
+    '''
     xn = x0
     x_ls = [xn]
     H = hessian(f, x0)
@@ -108,6 +209,35 @@ def Quasi_Newton(f, x0, iter_max=100, error_max=1e-10):
     return xn, x_ls
 
 def Newton(f, x0, iter_max=100, error_max=1e-6):
+    '''
+    help function to calcuate newton 
+    
+    Parameters
+    ----------
+    f        : callable function object
+               A differentiable real-valued function
+    x0       : list of float contains initial guess of roots
+    iter_max : integer, optional (default = 100)
+               The maximum number of iterations to run
+    error_max: float, optional (default = 1e-10)
+               This tells us when to stop the algorithm
+        
+    Returns
+    -------
+    xn   : optimal roots guess
+    x_ls : historical guss of xn
+    
+    EXAMPLES
+	=========
+	>>> def f(val):
+	...     x1 = Scalar(val)
+    ...     f = (x1-5) ** 2
+	...     return f
+	>>> xn = Newton(f, x0)
+	>>> xn
+	Reach requirement. At iteration 28
+    4.999997543564156
+    '''
     xn = x0
     x_ls = [xn]
     for i in range(iter_max):
