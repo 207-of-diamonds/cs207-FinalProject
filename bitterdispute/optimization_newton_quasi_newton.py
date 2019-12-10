@@ -1,9 +1,8 @@
 
-from bitterdispute.elementary_functions import *
-from bitterdispute.variable import Variable
+from elementary_functions import *
+from variable import Variable
 
 import numpy as np
-import matplotlib.pyplot as plt
 
 
 def hessian(f, x, dx=1e-5):
@@ -64,32 +63,27 @@ def help_Quasi_Newton(f, x0, B, h=0.1):
         return xn, B
 
 
-def help_Newton(f, x0, h=0.1, stop_stepsize=1e-6):
+def help_Newton(f, x0, h=0.1):
     
     x = np.array(x0).ravel()
     H = hessian(f, x0)#f(x0).der2
+    B = np.linalg.pinv(H)
     
     # Updates x        
     dfx = np.array(list(f(x0).der.values())) # df(x0) #
-    step = np.linalg.solve(H, -dfx)
-    
     if np.isscalar(x0):
         dfx = dfx[0]
+        
+    dx = -np.dot(B, dfx)*h
     
-    if np.linalg.norm(step, ord=2) > stop_stepsize: 
-        if np.isscalar(x0):
-            step = step[0]
-        
-        dx = step*h 
-        
-        x = x + np.array(dx)   
+    xn = x + np.array(dx)   
     
     if np.isscalar(x0):
-        return x[0]
+        return xn[0][0]
     else:
-        return x
+        return xn
     
-    
+
 def Quasi_Newton(f, x0, iter_max=100, error_max=1e-5):
     xn = x0
     x_ls = [xn]
@@ -107,7 +101,7 @@ def Quasi_Newton(f, x0, iter_max=100, error_max=1e-5):
         xn = x_new
         
     print("Reach max iteration!")
-    print("Result:", xn, "; f(x) = ", funct(xn).val)
+    print("Result:", xn, "; f(x) = ", f(xn).val)
     
     return xn, x_ls
 
@@ -125,6 +119,6 @@ def Newton(f, x0, iter_max=100, error_max=1e-5):
         xn = x_new
         
     print("Reach max iteration!")
-    print("Result:", xn, "; f(x) = ", funct(xn).val)
+    print("Result:", xn, "; f(x) = ", f(xn).val)
     
     return xn, x_ls
