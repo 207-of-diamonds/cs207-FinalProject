@@ -66,21 +66,6 @@ def gradientDescent(f, init_val, lr=0.01, max_iters=10000, tol=1e-4):
         raise TypeError("Please enter the initial values in a list.")
     #print("Total iterations", iters, "\n The local minimum occurs at", curr_x)  #Print iterations and the local minimum value
 
-def f(val):
-    x1 = Variable('x',val)
-    f = (x1-5) ** 2
-    return f
-a = gradientDescent(f,init_val=[3])
-print(a)
-
-def f(val):
-    x1 = Variable('x',val[0])
-    x2 = Variable('y',val[1])
-    f = (x1-5) ** 2 + (x2-5)**2
-    return f
-a = gradientDescent(f,init_val=[3,1])
-print(a)
-
 
 def backtrackingLineSearch(f, init_val, tau=0.01, c = 0.01, alpha = 10, max_iters=1000):
     """
@@ -142,19 +127,3 @@ def backtrackingLineSearch(f, init_val, tau=0.01, c = 0.01, alpha = 10, max_iter
         #     break
     return (iters, alpha)
     #print("Total iterations", iters, "\n The alpha, step size, is", alpha)
-
-# def f(val):
-#     x1 = Variable('x',val[0])
-#     f = (x1-5) ** 2
-#     return f
-# a = backtrackingLineSearch(f, init_val=[7])
-# b = backtrackingLineSearch(f, init_val=[5])
-
-def f(val):
-    x1 = Variable('x',val[0])
-    x2 = Variable('y',val[1])
-    f = (x1-5) ** 2 + (x2-5)**2
-    return f
-a = backtrackingLineSearch(f, init_val=[7,7])
-b = backtrackingLineSearch(f, init_val=[5,5])
-print (a)

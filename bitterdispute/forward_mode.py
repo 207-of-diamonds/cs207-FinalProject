@@ -44,7 +44,7 @@ class AD():
             count += 1
         print("Thank you, we recorded these values:")
         for keys, values in variable_dict.items():
-            print(f"{keys} = {values}")#.val
+            print(f"{keys} = {values}")
 
         print("""Lastly, what formulas would you like to derive? Please use the variables just listed.
         You may enter as many formulas as you'd like, either writing them separated by commas or copying a list.""")
